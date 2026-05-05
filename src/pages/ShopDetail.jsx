@@ -2,7 +2,7 @@ import BackHeader from "../components/BackHeader";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../data/products";
-import { shops } from "../data/shop";
+import { shops } from "../data/shops";
 import { useCart } from "../context/CartContext";
 
 const ShopDetail = () => {

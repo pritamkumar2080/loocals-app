@@ -1,7 +1,7 @@
 import BackHeader from "../components/BackHeader";
 import React, { useState } from "react";
 import ShopCard from "../components/ShopCard";
-import { shops } from "../data/shop";
+import { shops } from "../data/shops";
 
 const ShopsPage = () => {
   const [search, setSearch] = useState("");

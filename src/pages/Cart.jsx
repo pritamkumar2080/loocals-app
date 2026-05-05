@@ -3,7 +3,7 @@ import React from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useAddress } from "../context/AddressContext";
-import { shops } from "../data/shop";
+import { shops } from "../data/shops";
 
 const Cart = () => {
   const { cart, increaseQty, decreaseQty } = useCart();

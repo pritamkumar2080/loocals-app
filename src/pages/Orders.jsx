@@ -1,7 +1,7 @@
 import BackHeader from "../components/BackHeader";
 import React from "react";
 import { useOrder } from "../context/OrderContext";
-import { shops } from "../data/shop";
+import { shops } from "../data/shops";
 
 const Orders = () => {
   const { orders, clearOrders } = useOrder();

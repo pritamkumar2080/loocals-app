@@ -1,7 +1,7 @@
 import BackHeader from "../components/BackHeader";
 import React, { useState, useRef } from "react";
 import { products } from "../data/products";
-import { shops } from "../data/shop";
+import { shops } from "../data/shops";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Mic } from "lucide-react";
 

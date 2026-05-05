@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { products } from "../data/products";
-import { shops } from "../data/shop";
+import { shops } from "../data/shops";
 import { useCart } from "../context/CartContext";
 import { Plus, ArrowLeft } from "lucide-react";
 
