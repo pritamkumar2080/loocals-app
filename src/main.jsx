@@ -4,9 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./index.css";
 import App from "./App.jsx";
-import { CartProvider } from "./context/CartContext.jsx";
-import { AddressProvider } from "./context/AddressContext.jsx";
-import { OrderProvider } from "./context/OrderContext.js"; // ✅ ADD
+
+import { CartProvider } from "./context/CartContext";
+import { AddressProvider } from "./context/AddressContext";
+import { OrderProvider } from "./context/OrderContext"; // ✅ FIXED
+
 import "leaflet/dist/leaflet.css";
 
 createRoot(document.getElementById("root")).render(
@@ -14,7 +16,7 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <CartProvider>
         <AddressProvider>
-          <OrderProvider>   {/* 🔥 ADD THIS */}
+          <OrderProvider>
             <App />
           </OrderProvider>
         </AddressProvider>
