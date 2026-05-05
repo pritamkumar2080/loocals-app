@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ShopCard from "./ShopCard";
-import { shops } from "../data/shop";
+import { shops } from "../data/shops";
 
 const ShopsNearby = () => {
   const navigate = useNavigate();
