@@ -1,0 +1,113 @@
+import img1 from "../assets/shop1.webp";
+import img2 from "../assets/shop2.webp";
+import img3 from "../assets/shop3.webp";
+import img4 from "../assets/shop4.webp";
+import img5 from "../assets/shop5.webp";
+import img6 from "../assets/shop6.webp";
+import img7 from "../assets/shop7.webp";
+import img8 from "../assets/shop8.webp";
+import img9 from "../assets/shop9.webp";
+import img10 from "../assets/shop10.webp";
+
+export const shops = [
+  {
+    id: 1,
+    title: "Fresh Mart",
+    offer: "20% OFF",
+    rating: "4.5",
+    time: "20 min",
+    img: img1,
+    lat: 28.6139,
+    lng: 77.2090,
+  },
+  {
+    id: 2,
+    title: "Green Basket",
+    offer: "15% OFF",
+    rating: "4.3",
+    time: "25 min",
+    img: img2,
+    lat: 28.6100,
+    lng: 77.2050,
+  },
+  {
+    id: 3,
+    title: "Nature's Store",
+    offer: "10% OFF",
+    rating: "4.6",
+    time: "30 min",
+    img: img3,
+    lat: 28.6160,
+    lng: 77.2105,
+  },
+  {
+    id: 4,
+    title: "City Mart",
+    offer: "5% OFF",
+    rating: "4.2",
+    time: "18 min",
+    img: img4,
+    lat: 28.6200,
+    lng: 77.2150,
+  },
+  {
+    id: 5,
+    title: "Local Store",
+    offer: "8% OFF",
+    rating: "4.1",
+    time: "22 min",
+    img: img5,
+    lat: 28.6050,
+    lng: 77.2000,
+  },
+  {
+    id: 6,
+    title: "Daily Needs",
+    offer: "12% OFF",
+    rating: "4.4",
+    time: "24 min",
+    img: img6,
+    lat: 28.6080,
+    lng: 77.1980,
+  },
+  {
+    id: 7,
+    title: "Super Mart",
+    offer: "18% OFF",
+    rating: "4.3",
+    time: "26 min",
+    img: img7,
+    lat: 28.6180,
+    lng: 77.2200,
+  },
+  {
+    id: 8,
+    title: "Organic Hub",
+    offer: "25% OFF",
+    rating: "4.7",
+    time: "28 min",
+    img: img8,
+    lat: 28.6220,
+    lng: 77.2250,
+  },
+  {
+    id: 9,
+    title: "Quick Shop",
+    offer: "10% OFF",
+    rating: "4.0",
+    time: "19 min",
+    img: img9,
+    lat: 28.6120,
+    lng: 77.2020,
+  },
+  {
+    id: 10,
+    title: "Smart Store",
+    offer: "14% OFF",
+    rating: "4.5",
+    time: "21 min",
+    img: img10,
+    lat: 28.6090,
+    lng: 77.2070,
+  },
+];
