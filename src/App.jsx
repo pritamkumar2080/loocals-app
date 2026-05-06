@@ -27,6 +27,7 @@ import EditProfile from "./pages/EditProfile";
 import Address from "./pages/Address";
 import AddAddress from "./pages/AddAddress";
 import MapPicker from "./pages/MapPicker";
+import Coupon from "./pages/Coupon";
 
 
 const App = () => {
@@ -72,6 +73,7 @@ const App = () => {
         <Route path="/address" element={<Address />} />
         <Route path="/add-address" element={<AddAddress />} />
         <Route path="/map-picker" element={<MapPicker />} />
+        <Route path="/coupon" element={<Coupon />} />
         
 
 
