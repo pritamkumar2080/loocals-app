@@ -78,7 +78,7 @@ const MapPicker = () => {
       const addressData = {
         city: "Current Location",
         area: areaName,
-        fullAddress: areaName,
+        fullAddress: "",
         saveAs: "Home",
       };
 
