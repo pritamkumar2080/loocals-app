@@ -23,6 +23,11 @@ import SearchPage from "./pages/SearchPage";
 // 🔥 IMPORTANT (DONO ALAG FILES HONGI)
 import CategoryPage from "./pages/CategoryPage";       // 👉 products page
 import CategoriesPage from "./pages/CategoriesPage";   // 👉 all categories page
+import EditProfile from "./pages/EditProfile";
+import Address from "./pages/Address";
+import AddAddress from "./pages/AddAddress";
+import MapPicker from "./pages/MapPicker";
+
 
 const App = () => {
   const location = useLocation();
@@ -63,6 +68,12 @@ const App = () => {
         <Route path="/offer" element={<Offer />} />
         <Route path="/help" element={<Help />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/address" element={<Address />} />
+        <Route path="/add-address" element={<AddAddress />} />
+        <Route path="/map-picker" element={<MapPicker />} />
+        
+
 
         {/* 🔥 CATEGORY FLOW */}
         <Route path="/categories" element={<CategoriesPage />} />
