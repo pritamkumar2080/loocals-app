@@ -28,11 +28,8 @@ const Help = () => {
   return (
     <div className="p-4 pb-20 bg-gray-100 min-h-screen">
 
-      <BackHeader title="Help" />
+      <BackHeader title="Help & Support" />
 
-      <h2 className="text-lg font-bold mb-4">
-        Help & Support
-      </h2>
 
       {/* FAQ */}
       <div className="space-y-3">
