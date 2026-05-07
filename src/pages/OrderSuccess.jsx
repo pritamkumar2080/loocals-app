@@ -1,4 +1,4 @@
-import BackHeader from "../components/BackHeader";
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,7 +7,7 @@ const OrderSuccess = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen text-center p-4">
-      <BackHeader title="" />
+     
 
       {/* ICON */}
       <div className="text-green-600 text-5xl mb-4">
