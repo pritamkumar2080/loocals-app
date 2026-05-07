@@ -51,20 +51,32 @@ const Checkout = () => {
   };
 
   // APPLY COUPON
-  const applyCoupon = () => {
+ const applyCoupon = () => {
 
-    if (coupon.toUpperCase() === "SAVE20") {
-
-      setDiscount(20);
-      setMessage("✅ Coupon Applied");
-
-    } else {
-
-      setDiscount(0);
-      setMessage("❌ Invalid Coupon");
-
-    }
+  const coupons = {
+    SAVE20: 20,
+    FREEDEL: 40,
+    WELCOME100: 100,
   };
+
+  const upperCoupon = coupon.toUpperCase();
+
+  if (coupons[upperCoupon]) {
+
+    setDiscount(coupons[upperCoupon]);
+
+    setMessage("✅ Coupon Applied");
+
+  } else {
+
+    setDiscount(0);
+
+    setMessage("❌ Invalid Coupon");
+
+  }
+
+};
+      
 
   return (
     <div className="bg-gray-100 min-h-screen pb-40">
