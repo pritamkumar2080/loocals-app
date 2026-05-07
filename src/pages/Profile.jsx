@@ -7,7 +7,11 @@ import {
   LogOut,
   ChevronRight,
   Pencil,
+  Mail,
+  Phone,
+  Heart,
 } from "lucide-react";
+
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -27,18 +31,36 @@ const Profile = () => {
     <div className="min-h-screen bg-[#f5f5f5] pb-24">
 
       {/* MAIN WRAPPER */}
-      <div className="w-full md:w-[40%] mx-auto pt-4 px-4">
+      <div className="w-full md:w-[40%] mx-auto px-4 pt-4">
 
-        {/* TOP PROFILE SECTION */}
-        <div className="bg-gradient-to-b from-red-500 to-yellow-200 rounded-[30px] pt-8 pb-8 shadow-sm">
+        {/* TOP CARD */}
+        <div className="bg-white rounded-[32px] overflow-hidden shadow-sm">
 
-          {/* PROFILE */}
-          <div className="flex flex-col items-center">
+          {/* TOP GREEN AREA */}
+          <div className="h-[140px] bg-gradient-to-br from-[#b8e6b9] via-[#dff5df] to-[#a8dca9] relative">
 
-            {/* PROFILE IMAGE */}
-            <div className="relative">
+            {/* CIRCLE BG */}
+            <div className="absolute w-44 h-44 bg-white/10 rounded-full top-[-40px] left-[-20px]" />
 
-              <div className="w-32 h-32 rounded-full bg-white border-4 border-white shadow-md overflow-hidden flex items-center justify-center">
+            <div className="absolute w-32 h-32 bg-white/10 rounded-full top-4 right-[-20px]" />
+
+            {/* DOTS */}
+            <div className="absolute top-6 left-6 flex gap-1">
+
+              <span className="w-2 h-2 rounded-full bg-white/50" />
+              <span className="w-2 h-2 rounded-full bg-white/50" />
+              <span className="w-2 h-2 rounded-full bg-white/50" />
+
+            </div>
+
+          </div>
+
+          {/* PROFILE IMAGE */}
+          <div className="relative flex justify-center">
+
+            <div className="-mt-16 relative">
+
+              <div className="w-32 h-32 rounded-full border-[5px] border-white overflow-hidden shadow-md bg-white">
 
                 {user.profileImage ? (
 
@@ -50,9 +72,9 @@ const Profile = () => {
 
                 ) : (
 
-                  <span className="text-5xl font-bold text-red-500">
+                  <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-green-600">
                     A
-                  </span>
+                  </div>
 
                 )}
 
@@ -61,176 +83,245 @@ const Profile = () => {
               {/* EDIT BUTTON */}
               <button
                 onClick={() => navigate("/edit-profile")}
-                className="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow"
+                className="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-white shadow flex items-center justify-center"
               >
-                <Pencil size={16} className="text-red-500" />
+
+                <Pencil
+                  size={16}
+                  className="text-green-600"
+                />
+
               </button>
 
             </div>
 
-            {/* USER INFO */}
-            <h2 className="mt-5 text-3xl font-bold text-black">
+          </div>
+
+          {/* USER INFO */}
+          <div className="px-5 pb-6 pt-4 text-center">
+
+            <h2 className="text-4xl font-bold text-[#0f172a]">
               {user.name}
             </h2>
 
-            <p className="text-gray-700 text-sm mt-1">
-              {user.mobile}
-            </p>
+            {/* PHONE */}
+            <div className="mt-4 inline-flex items-center gap-2 bg-[#eef8ef] border border-[#dcefdc] px-4 py-2 rounded-2xl">
 
-            <p className="text-gray-600 text-sm">
-              {user.email}
-            </p>
+              <Phone
+                size={16}
+                className="text-green-600"
+              />
+
+              <p className="text-lg text-[#1e293b]">
+                {user.mobile}
+              </p>
+
+            </div>
+
+            {/* EMAIL */}
+            <div className="mt-3 inline-flex items-center gap-2 bg-white border border-gray-200 px-4 py-2 rounded-2xl shadow-sm">
+
+              <Mail
+                size={16}
+                className="text-green-600"
+              />
+
+              <p className="text-sm text-[#1e293b]">
+                {user.email}
+              </p>
+
+            </div>
 
           </div>
+
         </div>
 
-        {/* ALL CARDS */}
-        <div className="mt-6 space-y-5">
-
-          {/* MY ADDRESS */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-
-            <div
-              onClick={() => navigate("/address")}
-              className="flex items-center justify-between cursor-pointer"
-            >
-
-              <div className="flex items-center gap-3">
-
-                <MapPin size={20} className="text-gray-600" />
-
-                <div>
-                  <h3 className="font-medium text-gray-800">
-                    My Address
-                  </h3>
-
-                  <p className="text-xs text-gray-500">
-                    Manage your saved addresses
-                  </p>
-                </div>
-
-              </div>
-
-              <ChevronRight size={18} className="text-gray-400" />
-
-            </div>
-          </div>
+        {/* SETTINGS SECTION */}
+        <div className="mt-5 space-y-3">
 
           {/* MY ORDERS */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div
+            onClick={() => navigate("/orders")}
+            className="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between cursor-pointer"
+          >
 
-            <div
-              onClick={() => navigate("/orders")}
-              className="flex items-center justify-between cursor-pointer"
-            >
+            <div className="flex items-center gap-3">
 
-              <div className="flex items-center gap-3">
+              <ShoppingBag
+                size={20}
+                className="text-green-600"
+              />
 
-                <ShoppingBag size={20} className="text-gray-600" />
+              <div>
 
-                <div>
-                  <h3 className="font-medium text-gray-800">
-                    My Orders
-                  </h3>
+                <h3 className="font-semibold text-sm text-gray-800">
+                  My Orders
+                </h3>
 
-                  <p className="text-xs text-gray-500">
-                    Check your order history
-                  </p>
-                </div>
-
-              </div>
-
-              <ChevronRight size={18} className="text-gray-400" />
-
-            </div>
-          </div>
-
-          {/* ACCOUNT SETTINGS */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-
-            <h3 className="text-sm font-semibold text-gray-500 mb-5 uppercase">
-              Account Settings
-            </h3>
-
-            <div
-              onClick={() => navigate("/settings")}
-              className="flex items-center justify-between cursor-pointer"
-            >
-
-              <div className="flex items-center gap-3">
-
-                <Settings size={20} className="text-gray-600" />
-
-                <div>
-                  <h3 className="font-medium text-gray-800">
-                    Account Settings
-                  </h3>
-
-                  <p className="text-xs text-gray-500">
-                    Privacy, security & preferences
-                  </p>
-                </div>
+                <p className="text-[11px] text-gray-500">
+                  View your order history
+                </p>
 
               </div>
 
-              <ChevronRight size={18} className="text-gray-400" />
-
             </div>
+
+            <ChevronRight
+              size={18}
+              className="text-gray-400"
+            />
 
           </div>
 
-          {/* HELP & SUPPORT */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          {/* WISHLIST */}
+          <div className="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between cursor-pointer">
 
-            <h3 className="text-sm font-semibold text-gray-500 mb-5 uppercase">
-              Help & Support
-            </h3>
+            <div className="flex items-center gap-3">
 
-            <div
-              onClick={() => navigate("/help")}
-              className="flex items-center justify-between cursor-pointer"
-            >
+              <Heart
+                size={20}
+                className="text-pink-500"
+              />
 
-              <div className="flex items-center gap-3">
+              <div>
 
-                <Headphones size={20} className="text-gray-600" />
+                <h3 className="font-semibold text-sm text-gray-800">
+                  Wishlist
+                </h3>
 
-                <div>
-                  <h3 className="font-medium text-gray-800">
-                    Help & Support
-                  </h3>
-
-                  <p className="text-xs text-gray-500">
-                    FAQs & customer support
-                  </p>
-                </div>
+                <p className="text-[11px] text-gray-500">
+                  Your favorite items
+                </p>
 
               </div>
 
-              <ChevronRight size={18} className="text-gray-400" />
+            </div>
+
+            <ChevronRight
+              size={18}
+              className="text-gray-400"
+            />
+
+          </div>
+
+          {/* ADDRESS */}
+          <div
+            onClick={() => navigate("/address")}
+            className="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between cursor-pointer"
+          >
+
+            <div className="flex items-center gap-3">
+
+              <MapPin
+                size={20}
+                className="text-green-600"
+              />
+
+              <div>
+
+                <h3 className="font-semibold text-sm text-gray-800">
+                  My Address
+                </h3>
+
+                <p className="text-[11px] text-gray-500">
+                  Manage saved address
+                </p>
+
+              </div>
 
             </div>
+
+            <ChevronRight
+              size={18}
+              className="text-gray-400"
+            />
+
+          </div>
+
+          {/* SETTINGS */}
+          <div
+            onClick={() => navigate("/settings")}
+            className="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between cursor-pointer"
+          >
+
+            <div className="flex items-center gap-3">
+
+              <Settings
+                size={20}
+                className="text-green-600"
+              />
+
+              <div>
+
+                <h3 className="font-semibold text-sm text-gray-800">
+                  Account Settings
+                </h3>
+
+                <p className="text-[11px] text-gray-500">
+                  Privacy & preferences
+                </p>
+
+              </div>
+
+            </div>
+
+            <ChevronRight
+              size={18}
+              className="text-gray-400"
+            />
+
+          </div>
+
+          {/* HELP */}
+          <div
+            onClick={() => navigate("/help")}
+            className="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between cursor-pointer"
+          >
+
+            <div className="flex items-center gap-3">
+
+              <Headphones
+                size={20}
+                className="text-green-600"
+              />
+
+              <div>
+
+                <h3 className="font-semibold text-sm text-gray-800">
+                  Help & Support
+                </h3>
+
+                <p className="text-[11px] text-gray-500">
+                  FAQs & support
+                </p>
+
+              </div>
+
+            </div>
+
+            <ChevronRight
+              size={18}
+              className="text-gray-400"
+            />
 
           </div>
 
           {/* LOGOUT */}
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <button
+            onClick={() => alert("Logged out")}
+            className="w-full bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3 text-red-500 font-semibold"
+          >
 
-            <button
-              onClick={() => alert("Logged out")}
-              className="flex items-center gap-3 text-red-500 font-semibold"
-            >
+            <LogOut size={20} />
 
-              <LogOut size={20} />
+            Logout
 
-              Logout
-
-            </button>
-
-          </div>
+          </button>
 
         </div>
+
       </div>
+
     </div>
   );
 };
