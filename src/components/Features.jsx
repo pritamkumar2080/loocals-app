@@ -8,7 +8,7 @@ const Features = () => {
       {/* FREE DELIVERY */}
       <div className="bg-white rounded-2xl p-3 shadow-sm flex flex-col items-center text-center">
 
-        <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mb-2">
+        <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center mb-2">
           <span className="text-green-600 text-lg">
             🛵
           </span>
@@ -27,7 +27,7 @@ const Features = () => {
       {/* QUICK DELIVERY */}
       <div className="bg-white rounded-2xl p-3 shadow-sm flex flex-col items-center text-center">
 
-        <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+        <div className="w-7 h-7 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
           <span className="text-yellow-500 text-lg">
             ⚡
           </span>
@@ -46,7 +46,7 @@ const Features = () => {
       {/* BEST PRICE */}
       <div className="bg-white rounded-2xl p-3 shadow-sm flex flex-col items-center text-center">
 
-        <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mb-2">
+        <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center mb-2">
           <span className="text-green-600 text-lg">
             💎
           </span>
@@ -65,7 +65,7 @@ const Features = () => {
       {/* EASY RETURN */}
       <div className="bg-white rounded-2xl p-3 shadow-sm flex flex-col items-center text-center">
 
-        <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mb-2">
+        <div className="w-7 h-7 rounded-full bg-orange-100 flex items-center justify-center mb-2">
           <span className="text-orange-500 text-lg">
             🔄
           </span>
