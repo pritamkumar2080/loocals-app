@@ -10,11 +10,11 @@ const Home = () => {
   return (
     <div className="px-4 pb-16 bg-gray-50 min-h-screen">
 
-      {/* ✨ FEATURES */}
-        <Features />
-
       {/* 🔝 HERO */}
       <Hero />
+
+      {/* ✨ FEATURES */}
+      <Features />
 
       {/* 🏪 NEARBY SHOPS */}
       <ShopsNearby />
