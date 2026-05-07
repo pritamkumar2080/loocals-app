@@ -56,16 +56,13 @@ const Payment = () => {
       {/* HEADER */}
       <div className="sticky top-0 z-20 bg-white shadow-sm px-4 py-3">
 
-        <BackHeader title="Payment" />
+        <BackHeader title="Select Payment Mode" />
 
       </div>
 
       <div className="p-4">
 
-        {/* PAGE TITLE */}
-        <h2 className="text-xl font-bold mb-4">
-          Select Payment Method
-        </h2>
+        
 
         {/* ADDRESS */}
         <div className="bg-white rounded-3xl p-4 shadow-sm mb-5">

@@ -45,9 +45,9 @@ const Cart = () => {
 
       <BackHeader title="cart" />
 
-      <h2 className="text-lg font-bold mb-3">
-        Your Cart
-      </h2>
+     
+     
+     
 
       {/* ADDRESS */}
       <div className="mb-4">
