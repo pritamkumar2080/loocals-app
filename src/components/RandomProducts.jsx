@@ -18,9 +18,6 @@ const RandomProducts = () => {
         <h2 className="text-sm font-semibold">
           Popular Products
         </h2>
-        <span className="text-green-600 text-xs">
-          View all
-        </span>
       </div>
 
       {/* GRID */}

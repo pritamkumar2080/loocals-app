@@ -1,3 +1,4 @@
+import BackHeader from "../components/BackHeader";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -27,11 +28,8 @@ const CategoriesPage = () => {
 
   return (
     <div className="p-4 pb-20 bg-gray-50 min-h-screen">
+       <BackHeader title="All Categories" />
 
-      {/* HEADER */}
-      <h2 className="text-lg font-bold mb-4">
-        All Categories
-      </h2>
 
       {/* GRID */}
       <div className="grid grid-cols-4 gap-3">

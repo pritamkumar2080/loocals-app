@@ -25,11 +25,8 @@ const notifications = [
 const Notification = () => {
   return (
     <div className="p-4">
-      <BackHeader title="" />
+      <BackHeader title=" Notifications" />
 
-      <h2 className="text-lg font-bold mb-4">
-        Notifications
-      </h2>
 
       {notifications.length === 0 ? (
         <p>No notifications 😢</p>
