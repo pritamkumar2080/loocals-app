@@ -1,9 +1,8 @@
 import BackHeader from "../components/BackHeader";
-import React, { useState } from "react";
+import React from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { shops } from "../data/shops";
-import { TicketPercent } from "lucide-react";
 
 const Cart = () => {
 
@@ -11,18 +10,13 @@ const Cart = () => {
 
   const navigate = useNavigate();
 
-  const [discount] = useState(20);
-
   // GET SAVED ADDRESS
   const savedAddress = JSON.parse(
     localStorage.getItem("savedAddress")
   );
 
-  // GET COUPON
-  const savedCoupon = localStorage.getItem("couponCode");
-
   // TOTAL
-  const subtotal = Object.values(cart).reduce((sum, shopItems) => {
+  const total = Object.values(cart).reduce((sum, shopItems) => {
 
     if (!Array.isArray(shopItems)) return sum;
 
@@ -36,11 +30,6 @@ const Cart = () => {
 
   }, 0);
 
-  // FINAL TOTAL
-  const total = savedCoupon
-    ? subtotal - discount
-    : subtotal;
-
   // SHOP NAME
   const getShopName = (id) => {
 
@@ -52,7 +41,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="p-4 pb-44 bg-gray-50 min-h-screen">
+    <div className="p-4 pb-20 bg-gray-50 min-h-screen">
 
       <BackHeader title="cart" />
 
@@ -122,45 +111,6 @@ const Cart = () => {
 
       </div>
 
-      {/* COUPON */}
-      <div
-        onClick={() => navigate("/coupon")}
-        className="bg-white rounded-2xl p-4 shadow-sm border flex items-center justify-between cursor-pointer mb-5"
-      >
-
-        <div className="flex items-center gap-3">
-
-          <div className="bg-green-100 p-2 rounded-xl">
-            <TicketPercent
-              className="text-green-600"
-              size={20}
-            />
-          </div>
-
-          <div>
-
-            <p className="font-semibold text-sm">
-              Apply Coupon
-            </p>
-
-            <p className="text-xs text-gray-500">
-
-              {savedCoupon
-                ? `${savedCoupon} Applied`
-                : "Get instant discount"}
-
-            </p>
-
-          </div>
-
-        </div>
-
-        <p className="text-green-600 font-semibold text-sm">
-          Apply
-        </p>
-
-      </div>
-
       {/* EMPTY CART */}
       {Object.keys(cart).length === 0 ? (
 
@@ -216,7 +166,7 @@ const Cart = () => {
 
                     </div>
 
-                    {/* QTY */}
+                    {/* QUANTITY */}
                     <div className="flex items-center gap-2">
 
                       <button
@@ -248,65 +198,23 @@ const Cart = () => {
               </div>
             );
           })}
+
+          {/* TOTAL */}
+          <h3 className="mt-4 font-bold text-lg">
+            Total: ₹{total}
+          </h3>
+
+          {/* CHECKOUT BUTTON */}
+          <button
+            onClick={() => navigate("/checkout")}
+            className="w-full mt-4 bg-green-600 text-white py-3 rounded-xl font-semibold"
+          >
+            Proceed to Checkout
+          </button>
+
         </>
 
       )}
-
-      {/* FIXED CHECKOUT */}
-      <div className="fixed bottom-20 left-0 right-0 bg-white border-t p-4 shadow-xl z-50">
-
-        {/* SUBTOTAL */}
-        <div className="flex items-center justify-between mb-2">
-
-          <p className="text-sm text-gray-500">
-            Subtotal
-          </p>
-
-          <p className="font-semibold">
-            ₹{subtotal}
-          </p>
-
-        </div>
-
-        {/* DISCOUNT */}
-        {savedCoupon && (
-
-          <div className="flex items-center justify-between mb-2">
-
-            <p className="text-sm text-green-600">
-              Coupon Discount
-            </p>
-
-            <p className="font-semibold text-green-600">
-              -₹20
-            </p>
-
-          </div>
-
-        )}
-
-        {/* TOTAL */}
-        <div className="flex items-center justify-between mb-4">
-
-          <p className="font-bold text-lg">
-            Total
-          </p>
-
-          <p className="font-bold text-lg text-green-700">
-            ₹{total}
-          </p>
-
-        </div>
-
-        {/* BUTTON */}
-        <button
-          onClick={() => navigate("/checkout")}
-          className="w-full bg-green-600 text-white py-4 rounded-2xl font-semibold"
-        >
-          Proceed to Checkout
-        </button>
-
-      </div>
 
     </div>
   );
