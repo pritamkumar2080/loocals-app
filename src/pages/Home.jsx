@@ -6,6 +6,8 @@ import Categories from "../components/Categories";
 import RandomProducts from "../components/RandomProducts";
 import Features from "../components/Features";
 import OfferBanner from "../components/OfferBanner";
+import CategoryPreview from "../components/CategoryPreview";
+import SaleSection from "../components/SaleSection";
 
 const Home = () => {
   return (
@@ -27,6 +29,28 @@ const Home = () => {
 
       {/* 🗂 CATEGORIES */}
       <Categories limit={4} />
+
+      <SaleSection />
+
+      {/* 🔥 CATEGORY PREVIEW */}
+      <CategoryPreview
+        title="Top Selection"
+        category="Dairy"
+        color="bg-[#C0E1D2]"
+      />
+
+      <CategoryPreview
+        title="Fresh Fruits"
+        category="Fruits"
+         color="bg-[#FF8383]"
+      />
+
+      <CategoryPreview
+        title="Daily Essentials"
+        category="Grocery"
+         color="bg-[#FFA02E]"
+
+      />
 
       {/* 🛍 RANDOM PRODUCTS */}
       <RandomProducts />

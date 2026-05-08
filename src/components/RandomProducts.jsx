@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 
@@ -6,27 +6,37 @@ const RandomProducts = () => {
 
   const { addToCart } = useCart();
 
-  const randomProducts = [...products]
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 20);
+  // ✅ RANDOM ONLY ONCE
+  const randomProducts = useMemo(() => {
+
+    return [...products]
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 20);
+
+  }, []);
 
   return (
     <div className="mt-4 px-4">
 
       {/* HEADER */}
       <div className="flex justify-between items-center mb-2">
+
         <h2 className="text-sm font-semibold">
           Popular Products
         </h2>
+
       </div>
 
       {/* GRID */}
       <div className="grid grid-cols-3 gap-3">
+
         {randomProducts.map((item) => (
+
           <div
             key={item.id}
             className="bg-white p-2 rounded-lg shadow-sm"
           >
+
             {/* IMAGE */}
             <img
               src={item.img}
@@ -41,11 +51,12 @@ const RandomProducts = () => {
 
             {/* PRICE + BUTTON */}
             <div className="flex justify-between items-center mt-1">
+
               <p className="text-sm font-bold">
                 ₹{item.price}
               </p>
 
-              {/* ✅ SIMPLE ADD */}
+              {/* ADD BUTTON */}
               <button
                 onClick={() => addToCart(item)}
                 className="bg-green-600 text-white text-xs px-2 py-1 rounded"
@@ -56,7 +67,9 @@ const RandomProducts = () => {
             </div>
 
           </div>
+
         ))}
+
       </div>
 
     </div>
