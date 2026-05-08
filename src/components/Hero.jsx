@@ -45,7 +45,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="p-4 w-full">
+    <div className="w-full mt-3">
 
       {/* 🔥 MAIN WRAPPER */}
       <div className="relative w-full overflow-hidden rounded-xl">
