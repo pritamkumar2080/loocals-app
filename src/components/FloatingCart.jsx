@@ -25,7 +25,7 @@ const FloatingCart = () => {
 
     <button
       onClick={() => navigate("/cart")}
-      className="fixed bottom-20 right-4 z-50"
+      className="fixed bottom-15 right-4 z-50"
     >
 
       {/* MAIN BUTTON */}
