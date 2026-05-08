@@ -1,14 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { products } from "../data/products";
+import { useCart } from "../context/CartContext";
 
 const CategoryPreview = ({
   title,
   category,
-   color,
+  color,
 }) => {
 
   const navigate = useNavigate();
+
+  // CART
+  const { addToCart } = useCart();
 
   // FILTER PRODUCTS
   const filteredProducts = products
@@ -19,7 +23,7 @@ const CategoryPreview = ({
 
   return (
 
-   <div className={`${color} rounded-3xl p-4 mt-5 shadow-sm`}>
+    <div className={`${color} rounded-3xl p-4 mt-5 shadow-sm`}>
 
       {/* TOP */}
       <div className="flex justify-between items-center mb-4">
@@ -58,14 +62,25 @@ const CategoryPreview = ({
             />
 
             {/* NAME */}
-            <p className="text-xs mt-2">
+            <p className="text-xs mt-2 line-clamp-1">
               {item.name}
             </p>
 
-            {/* PRICE */}
-            <p className="font-bold text-sm mt-1">
-              ₹{item.price}
-            </p>
+            {/* PRICE + ADD */}
+            <div className="mt-2 flex justify-between items-center">
+
+              <p className="font-bold text-sm">
+                ₹{item.price}
+              </p>
+
+              <button
+                onClick={() => addToCart(item)}
+                className="bg-green-600 text-white text-xs px-3 py-1 rounded-lg"
+              >
+                Add
+              </button>
+
+            </div>
 
           </div>
 

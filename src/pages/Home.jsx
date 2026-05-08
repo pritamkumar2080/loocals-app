@@ -27,10 +27,10 @@ const Home = () => {
       {/* 🏪 NEARBY SHOPS */}
       <ShopsNearby />
 
-      {/* 🗂 CATEGORIES */}
-      <Categories limit={4} />
-
       <SaleSection />
+
+      {/* 🗂 CATEGORIES */}
+    <Categories limit={4} />
 
       {/* 🔥 CATEGORY PREVIEW */}
       <CategoryPreview

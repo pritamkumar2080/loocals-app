@@ -1,7 +1,11 @@
 import React, { useMemo } from "react";
 import { products } from "../data/products";
+import { useCart } from "../context/CartContext";
 
 const SaleSection = () => {
+
+  // CART
+  const { addToCart } = useCart();
 
   // RANDOM PRODUCTS
   const saleProducts = useMemo(() => {
@@ -55,18 +59,35 @@ const SaleSection = () => {
               className="w-full h-24 object-cover rounded-xl"
             />
 
-            {/* PRICE */}
-            <p className="text-red-500 font-bold text-sm mt-2">
-              ₹{Math.floor(item.price * 0.8)}
-            </p>
+            {/* PRICE + ADD */}
+            <div className="mt-2 flex justify-between items-center">
 
-            {/* OLD PRICE */}
-            <p className="text-[10px] text-gray-400 line-through">
-              ₹{item.price}
-            </p>
+              <div>
+
+                {/* DISCOUNT PRICE */}
+                <p className="text-red-500 font-bold text-sm">
+                  ₹{Math.floor(item.price * 0.8)}
+                </p>
+
+                {/* OLD PRICE */}
+                <p className="text-[10px] text-gray-400 line-through">
+                  ₹{item.price}
+                </p>
+
+              </div>
+
+              {/* ADD BUTTON */}
+              <button
+                onClick={() => addToCart(item)}
+                className="bg-green-600 text-white text-[10px] px-2 py-1 rounded-lg"
+              >
+                Add
+              </button>
+
+            </div>
 
             {/* NAME */}
-            <p className="text-[11px] mt-1 line-clamp-1">
+            <p className="text-[11px] mt-2 line-clamp-1">
               {item.name}
             </p>
 
