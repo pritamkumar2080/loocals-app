@@ -4,7 +4,12 @@ import { useCart } from "../context/CartContext";
 
 const RandomProducts = () => {
 
-  const { addToCart } = useCart();
+  const {
+    cart,
+    addToCart,
+    increaseQty,
+    decreaseQty,
+  } = useCart();
 
   // ✅ RANDOM ONLY ONCE
   const randomProducts = useMemo(() => {
@@ -15,7 +20,31 @@ const RandomProducts = () => {
 
   }, []);
 
+  // GET ITEM QTY
+  const getQty = (itemId) => {
+
+    let qty = 0;
+
+    Object.values(cart).forEach((shopItems) => {
+
+      if (!Array.isArray(shopItems)) return;
+
+      const found = shopItems.find(
+        (i) => i.id === itemId
+      );
+
+      if (found) {
+        qty = found.qty;
+      }
+
+    });
+
+    return qty;
+
+  };
+
   return (
+
     <div className="mt-4 px-4">
 
       {/* HEADER */}
@@ -30,49 +59,97 @@ const RandomProducts = () => {
       {/* GRID */}
       <div className="grid grid-cols-3 gap-3">
 
-        {randomProducts.map((item) => (
+        {randomProducts.map((item) => {
 
-          <div
-            key={item.id}
-            className="bg-white p-2 rounded-lg shadow-sm"
-          >
+          const qty = getQty(item.id);
 
-            {/* IMAGE */}
-            <img
-              src={item.img}
-              alt={item.name}
-              className="w-full h-24 object-cover rounded"
-            />
+          return (
 
-            {/* NAME */}
-            <p className="text-xs mt-1">
-              {item.name}
-            </p>
+            <div
+              key={item.id}
+              className="bg-white p-2 rounded-lg shadow-sm"
+            >
 
-            {/* PRICE + BUTTON */}
-            <div className="flex justify-between items-center mt-1">
+              {/* IMAGE */}
+              <img
+                src={item.img}
+                alt={item.name}
+                className="w-full h-24 object-cover rounded"
+              />
 
-              <p className="text-sm font-bold">
-                ₹{item.price}
+              {/* NAME */}
+              <p className="text-xs mt-1 line-clamp-1">
+                {item.name}
               </p>
 
-              {/* ADD BUTTON */}
-              <button
-                onClick={() => addToCart(item)}
-                className="bg-green-600 text-white text-xs px-2 py-1 rounded"
-              >
-                Add
-              </button>
+              {/* PRICE + BUTTON */}
+              <div className="flex justify-between items-center mt-2">
+
+                <p className="text-sm font-bold">
+                  ₹{item.price}
+                </p>
+
+                {/* BLINKIT STYLE BUTTON */}
+                {qty === 0 ? (
+
+                  <button
+                    onClick={() => addToCart(item)}
+                    className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
+                  >
+                    ADD
+                  </button>
+
+                ) : (
+
+                  <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
+
+                    {/* MINUS */}
+                    <button
+                      onClick={() =>
+                        decreaseQty(
+                          item.shopId,
+                          item.id
+                        )
+                      }
+                      className="px-2 py-1 text-sm font-bold"
+                    >
+                      −
+                    </button>
+
+                    {/* QTY */}
+                    <span className="px-2 text-xs font-semibold">
+                      {qty}
+                    </span>
+
+                    {/* PLUS */}
+                    <button
+                      onClick={() =>
+                        increaseQty(
+                          item.shopId,
+                          item.id
+                        )
+                      }
+                      className="px-2 py-1 text-sm font-bold"
+                    >
+                      +
+                    </button>
+
+                  </div>
+
+                )}
+
+              </div>
 
             </div>
 
-          </div>
+          );
 
-        ))}
+        })}
 
       </div>
 
     </div>
+
   );
 };
 
