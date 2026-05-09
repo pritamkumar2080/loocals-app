@@ -1,16 +1,14 @@
-import BackHeader from "../components/BackHeader";
 import React from "react";
-import { useParams } from "react-router-dom";
-import { products } from "../data/products";
-import { shops } from "../data/shops";
-import { useCart } from "../context/CartContext";
+import BackHeader from "../components/BackHeader";
 import { useWishlist } from "../context/WishlistContext";
+import { useCart } from "../context/CartContext";
 
-const ShopDetail = () => {
+const Wishlist = () => {
 
-  const { id } = useParams();
-
-  const shopId = Number(id);
+  const {
+    wishlist,
+    removeFromWishlist,
+  } = useWishlist();
 
   const {
     cart,
@@ -19,125 +17,91 @@ const ShopDetail = () => {
     decreaseQty,
   } = useCart();
 
-  const {
-    addToWishlist,
-    removeFromWishlist,
-    isInWishlist,
-  } = useWishlist();
-
-  const shop = shops.find(
-    (s) => Number(s.id) === shopId
-  );
-
-  const shopProducts = products.filter(
-    (p) => Number(p.shopId) === shopId
-  );
-
   // GET ITEM QTY
   const getQty = (itemId) => {
 
-    const shopItems = Array.isArray(
-      cart[shopId]
-    )
-      ? cart[shopId]
-      : [];
+    let qty = 0;
 
-    const found = shopItems.find(
-      (item) => item.id === itemId
-    );
+    Object.values(cart).forEach((shopItems) => {
 
-    return found ? found.qty : 0;
+      if (!Array.isArray(shopItems)) return;
+
+      const found = shopItems.find(
+        (i) => i.id === itemId
+      );
+
+      if (found) {
+        qty = found.qty;
+      }
+
+    });
+
+    return qty;
 
   };
-
-  if (!shop) {
-
-    return (
-      <p className="p-4">
-        Shop not found
-      </p>
-    );
-
-  }
 
   return (
 
     <div className="p-4 pb-20 bg-gray-50 min-h-screen">
 
-      <BackHeader title="" />
+      <BackHeader title="Wishlist" />
 
-      {/* SHOP IMAGE */}
-      <img
-        src={shop.img}
-        alt={shop.title}
-        className="w-full h-40 object-cover rounded-2xl mb-3"
-      />
+      {/* EMPTY */}
+      {wishlist.length === 0 ? (
 
-      {/* SHOP TITLE */}
-      <h2 className="text-xl font-bold">
-        {shop.title}
-      </h2>
+        <div className="flex flex-col items-center justify-center mt-20">
 
-      {/* INFO */}
-      <p className="text-sm text-gray-500 mb-4">
-        ⭐ {shop.rating} • ⏱ {shop.time}
-      </p>
+          <p className="text-5xl">
+            ❤️
+          </p>
 
-      {/* PRODUCTS */}
-      {shopProducts.length === 0 ? (
+          <p className="mt-3 text-gray-500">
+            Your wishlist is empty
+          </p>
 
-        <p className="text-gray-500">
-          No products found
-        </p>
+        </div>
 
       ) : (
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3 mt-4">
 
-          {shopProducts.map((item) => {
+          {wishlist.map((item) => {
 
             const qty = getQty(item.id);
-
-            const liked = isInWishlist(item.id);
 
             return (
 
               <div
                 key={item.id}
-                className="bg-white p-2 rounded-2xl shadow-sm relative"
+                className="bg-white rounded-2xl p-3 shadow-sm relative"
               >
 
-                {/* ❤️ WISHLIST */}
+                {/* ❤️ REMOVE */}
                 <button
                   onClick={() =>
-
-                    liked
-                      ? removeFromWishlist(item.id)
-                      : addToWishlist(item)
-
+                    removeFromWishlist(item.id)
                   }
-                  className="absolute top-2 right-2 text-lg"
+                  className="absolute top-2 right-2 text-red-500 text-lg"
                 >
-
-                  {liked ? "❤️" : "🤍"}
-
+                  ❤️
                 </button>
 
                 {/* IMAGE */}
                 <img
                   src={item.img}
                   alt={item.name}
-                  className="w-full h-24 object-cover rounded-xl mb-2"
+                  className="w-full h-28 object-cover rounded-xl"
                 />
 
                 {/* NAME */}
-                <p className="text-xs line-clamp-1">
+                <p className="text-sm mt-2 font-medium line-clamp-1">
                   {item.name}
                 </p>
 
                 {/* PRICE + BUTTON */}
-                <div className="flex justify-between items-center mt-2">
+                <div className="mt-2 flex justify-between items-center">
 
+                  {/* PRICE */}
                   <p className="text-sm font-bold">
                     ₹{item.price}
                   </p>
@@ -206,6 +170,7 @@ const ShopDetail = () => {
     </div>
 
   );
+
 };
 
-export default ShopDetail;
+export default Wishlist;

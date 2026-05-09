@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 
 const CategoryPreview = ({
   title,
@@ -18,6 +19,13 @@ const CategoryPreview = ({
     increaseQty,
     decreaseQty,
   } = useCart();
+
+  // ❤️ WISHLIST
+  const {
+    addToWishlist,
+    removeFromWishlist,
+    isInWishlist,
+  } = useWishlist();
 
   // FILTER PRODUCTS
   const filteredProducts = products
@@ -79,12 +87,30 @@ const CategoryPreview = ({
 
           const qty = getQty(item.id);
 
+          const liked = isInWishlist(item.id);
+
           return (
 
             <div
               key={item.id}
-              className="bg-white rounded-2xl p-2"
+              className="bg-white rounded-2xl p-2 relative"
             >
+
+              {/* ❤️ WISHLIST */}
+              <button
+                onClick={() =>
+
+                  liked
+                    ? removeFromWishlist(item.id)
+                    : addToWishlist(item)
+
+                }
+                className="absolute top-2 right-2 text-lg z-10"
+              >
+
+                {liked ? "❤️" : "🤍"}
+
+              </button>
 
               {/* IMAGE */}
               <img

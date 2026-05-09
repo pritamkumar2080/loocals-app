@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 
 const RandomProducts = () => {
 
@@ -10,6 +11,12 @@ const RandomProducts = () => {
     increaseQty,
     decreaseQty,
   } = useCart();
+
+  const {
+    addToWishlist,
+    removeFromWishlist,
+    isInWishlist,
+  } = useWishlist();
 
   // ✅ RANDOM ONLY ONCE
   const randomProducts = useMemo(() => {
@@ -63,12 +70,30 @@ const RandomProducts = () => {
 
           const qty = getQty(item.id);
 
+          const liked = isInWishlist(item.id);
+
           return (
 
             <div
               key={item.id}
-              className="bg-white p-2 rounded-lg shadow-sm"
+              className="bg-white p-2 rounded-lg shadow-sm relative"
             >
+
+              {/* ❤️ WISHLIST */}
+              <button
+                onClick={() =>
+
+                  liked
+                    ? removeFromWishlist(item.id)
+                    : addToWishlist(item)
+
+                }
+                className="absolute top-2 right-2 text-lg z-10"
+              >
+
+                {liked ? "❤️" : "🤍"}
+
+              </button>
 
               {/* IMAGE */}
               <img

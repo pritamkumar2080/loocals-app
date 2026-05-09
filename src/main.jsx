@@ -7,20 +7,37 @@ import App from "./App.jsx";
 
 import { CartProvider } from "./context/CartContext";
 import { AddressProvider } from "./context/AddressContext";
-import { OrderProvider } from "./context/OrderContext"; // ✅ FIXED
+import { OrderProvider } from "./context/OrderContext";
+import { WishlistProvider } from "./context/WishlistContext";
 
 import "leaflet/dist/leaflet.css";
 
 createRoot(document.getElementById("root")).render(
+
   <StrictMode>
+
     <BrowserRouter>
-      <CartProvider>
-        <AddressProvider>
-          <OrderProvider>
-            <App />
-          </OrderProvider>
-        </AddressProvider>
-      </CartProvider>
+
+      <WishlistProvider>
+
+        <CartProvider>
+
+          <AddressProvider>
+
+            <OrderProvider>
+
+              <App />
+
+            </OrderProvider>
+
+          </AddressProvider>
+
+        </CartProvider>
+
+      </WishlistProvider>
+
     </BrowserRouter>
+
   </StrictMode>
+
 );

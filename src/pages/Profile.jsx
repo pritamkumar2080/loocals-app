@@ -28,6 +28,7 @@ const Profile = () => {
     };
 
   return (
+
     <div className="min-h-screen bg-[#f5f5f5] pb-24">
 
       {/* MAIN WRAPPER */}
@@ -173,8 +174,11 @@ const Profile = () => {
 
           </div>
 
-          {/* WISHLIST */}
-          <div className="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between cursor-pointer">
+          {/* ❤️ WISHLIST */}
+          <div
+            onClick={() => navigate("/wishlist")}
+            className="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between cursor-pointer"
+          >
 
             <div className="flex items-center gap-3">
 
@@ -323,7 +327,9 @@ const Profile = () => {
       </div>
 
     </div>
+
   );
+
 };
 
 export default Profile;
