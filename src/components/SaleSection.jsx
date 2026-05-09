@@ -5,16 +5,44 @@ import { useCart } from "../context/CartContext";
 const SaleSection = () => {
 
   // CART
-  const { addToCart } = useCart();
+  const {
+    cart,
+    addToCart,
+    increaseQty,
+    decreaseQty,
+  } = useCart();
 
-  // RANDOM PRODUCTS
+  // ONLY SALE PRODUCTS
   const saleProducts = useMemo(() => {
 
-    return [...products]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
+    return products
+      .filter((item) => item.isOnSale)
+      .slice(0, 6);
 
   }, []);
+
+  // GET ITEM QTY
+  const getQty = (itemId) => {
+
+    let qty = 0;
+
+    Object.values(cart).forEach((shopItems) => {
+
+      if (!Array.isArray(shopItems)) return;
+
+      const found = shopItems.find(
+        (i) => i.id === itemId
+      );
+
+      if (found) {
+        qty = found.qty;
+      }
+
+    });
+
+    return qty;
+
+  };
 
   return (
 
@@ -37,70 +65,127 @@ const SaleSection = () => {
         </h2>
 
         <p className="text-sm text-red-100 mt-1">
-          Extra 20% OFF on selected items
+          Extra discounts on selected items
         </p>
 
       </div>
 
-      {/* PRODUCTS */}
-      <div className="grid grid-cols-3 gap-3">
+      {/* SCROLLABLE PRODUCTS */}
+      <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
 
-        {saleProducts.map((item) => (
+        {saleProducts.map((item) => {
 
-          <div
-            key={item.id}
-            className="bg-white rounded-2xl p-2"
-          >
+          const qty = getQty(item.id);
 
-            {/* IMAGE */}
-            <img
-              src={item.img}
-              alt={item.name}
-              className="w-full h-24 object-cover rounded-xl"
-            />
+          // DYNAMIC SALE PRICE
+          const salePrice =
+            item.price -
+            (item.price * item.discount) / 100;
 
-            {/* PRICE + ADD */}
-            <div className="mt-2 flex justify-between items-center">
+          return (
 
-              <div>
+            <div
+              key={item.id}
+              className="min-w-[140px] bg-white rounded-2xl p-2 flex-shrink-0"
+            >
 
-                {/* DISCOUNT PRICE */}
-                <p className="text-red-500 font-bold text-sm">
-                  ₹{Math.floor(item.price * 0.8)}
-                </p>
+              {/* IMAGE */}
+              <img
+                src={item.img}
+                alt={item.name}
+                className="w-full h-28 object-cover rounded-xl"
+              />
 
-                {/* OLD PRICE */}
-                <p className="text-[10px] text-gray-400 line-through">
-                  ₹{item.price}
-                </p>
+              {/* PRICE + BUTTON */}
+              <div className="mt-2 flex justify-between items-center">
+
+                <div>
+
+                  {/* SALE PRICE */}
+                  <p className="text-red-500 font-bold text-sm">
+                    ₹{Math.floor(salePrice)}
+                  </p>
+
+                  {/* OLD PRICE */}
+                  <p className="text-[10px] text-gray-400 line-through">
+                    ₹{item.price}
+                  </p>
+
+                </div>
+
+                {/* BLINKIT STYLE BUTTON */}
+                {qty === 0 ? (
+
+                  <button
+                    onClick={() =>
+                      addToCart({
+                        ...item,
+                        price: Math.floor(salePrice),
+                      })
+                    }
+                    className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
+                  >
+                    ADD
+                  </button>
+
+                ) : (
+
+                  <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
+
+                    {/* MINUS */}
+                    <button
+                      onClick={() =>
+                        decreaseQty(
+                          item.shopId,
+                          item.id
+                        )
+                      }
+                      className="px-2 py-1 text-sm font-bold"
+                    >
+                      −
+                    </button>
+
+                    {/* QTY */}
+                    <span className="px-2 text-xs font-semibold">
+                      {qty}
+                    </span>
+
+                    {/* PLUS */}
+                    <button
+                      onClick={() =>
+                        increaseQty(
+                          item.shopId,
+                          item.id
+                        )
+                      }
+                      className="px-2 py-1 text-sm font-bold"
+                    >
+                      +
+                    </button>
+
+                  </div>
+
+                )}
 
               </div>
 
-              {/* ADD BUTTON */}
-              <button
-                onClick={() => addToCart(item)}
-                className="bg-green-600 text-white text-[10px] px-2 py-1 rounded-lg"
-              >
-                Add
-              </button>
+              {/* NAME */}
+              <p className="text-[11px] mt-2 line-clamp-2">
+                {item.name}
+              </p>
+
+              {/* DISCOUNT TAG */}
+              <div className="mt-2 bg-red-100 text-red-500 text-[10px] font-bold px-2 py-1 rounded-lg text-center">
+
+                {item.discount}% OFF
+
+              </div>
 
             </div>
 
-            {/* NAME */}
-            <p className="text-[11px] mt-2 line-clamp-1">
-              {item.name}
-            </p>
+          );
 
-            {/* DISCOUNT */}
-            <div className="mt-2 bg-red-100 text-red-500 text-[10px] font-bold px-2 py-1 rounded-lg text-center">
-
-              20% EXTRA OFF
-
-            </div>
-
-          </div>
-
-        ))}
+        })}
 
       </div>
 

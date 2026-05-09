@@ -58,16 +58,129 @@ import img50 from "../assets/marker.avif";
 
 
 export const products = [
-  { id: 1, name: "Lays", price: 20, shopId: 1, img: img11, category: "Snacks" },
-  { id: 2, name: "Milk", price: 50, shopId: 1, img: img12, category: "Dairy" },
-  { id: 3, name: "Bread", price: 30, shopId: 3, img: img13, category: "Bakery" },
-  { id: 4, name: "Butter", price: 45, shopId: 3, img: img14, category: "Dairy" },
-  { id: 5, name: "Cheese", price: 60, shopId: 3, img: img15, category: "Dairy" },
-  { id: 6, name: "Eggs", price: 70, shopId: 1, img: img16, category: "Dairy" },
-  { id: 7, name: "Maggi", price: 15, shopId: 2, img: img17, category: "Snacks" },
-  { id: 8, name: "Rice", price: 80, shopId: 2, img: img18, category: "Grocery" },
-  { id: 9, name: "Wheat Flour", price: 120, shopId: 1, img: img19, category: "Grocery" },
-  { id: 10, name: "Sugar", price: 40, shopId: 1, img: img20, category: "Grocery" },
+ 
+ 
+  {
+    id: 1,
+    name: "Lays",
+    price: 20,
+    shopId: 1,
+    img: img11,
+    category: "Snacks",
+
+    isOnSale: true,
+    discount: 50,
+  },
+
+  {
+    id: 2,
+    name: "Milk",
+    price: 50,
+    shopId: 1,
+    img: img12,
+    category: "Dairy",
+
+    isOnSale: false,
+    discount: 0,
+  },
+
+  {
+    id: 3,
+    name: "Bread",
+    price: 30,
+    shopId: 3,
+    img: img13,
+    category: "Bakery",
+
+    isOnSale: false,
+    discount: 0,
+  },
+
+  {
+    id: 4,
+    name: "Butter",
+    price: 45,
+    shopId: 3,
+    img: img14,
+    category: "Dairy",
+
+    isOnSale: true,
+    discount: 15,
+  },
+
+  {
+    id: 5,
+    name: "Cheese",
+    price: 60,
+    shopId: 3,
+    img: img15,
+    category: "Dairy",
+
+    isOnSale: false,
+    discount: 0,
+  },
+
+  {
+    id: 6,
+    name: "Eggs",
+    price: 70,
+    shopId: 1,
+    img: img16,
+    category: "Dairy",
+
+    isOnSale: true,
+    discount: 10,
+  },
+
+  {
+    id: 7,
+    name: "Maggi",
+    price: 15,
+    shopId: 2,
+    img: img17,
+    category: "Snacks",
+
+    isOnSale: true,
+    discount: 25,
+  },
+
+  {
+    id: 8,
+    name: "Rice",
+    price: 80,
+    shopId: 2,
+    img: img18,
+    category: "Grocery",
+
+    isOnSale: false,
+    discount: 0,
+  },
+
+  {
+    id: 9,
+    name: "Wheat Flour",
+    price: 120,
+    shopId: 1,
+    img: img19,
+    category: "Grocery",
+
+    isOnSale: true,
+    discount: 20,
+  },
+
+  {
+    id: 10,
+    name: "Sugar",
+    price: 40,
+    shopId: 1,
+    img: img20,
+    category: "Grocery",
+
+    isOnSale: false,
+    discount: 0,
+  },
+
+ 
 
   { id: 11, name: "Salt", price: 20, shopId: 2, img: img21, category: "Grocery" },
   { id: 12, name: "Tea", price: 90, shopId: 2, img: img22, category: "Beverages" },
