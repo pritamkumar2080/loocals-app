@@ -11,7 +11,7 @@ import bevImg from "../assets/bread.avif";
 import groceryImg from "../assets/detergent.avif";
 import personalImg from "../assets/shampoo.avif";
 import stationeryImg from "../assets/notebook.avif";
-import Medicine from "../assets/combiflam.avif";
+import Medicine from "../assets/Combiflam.avif";
 import Beauty from "../assets/marslips.avif";
 
 const categories = [
