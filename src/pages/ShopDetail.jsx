@@ -5,6 +5,7 @@ import { products } from "../data/products";
 import { shops } from "../data/shops";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import { Heart } from "lucide-react";
 
 const ShopDetail = () => {
 
@@ -104,7 +105,7 @@ const ShopDetail = () => {
 
               <div
                 key={item.id}
-                className="bg-white p-2 rounded-2xl shadow-sm relative"
+                className="bg-white p-2 rounded-2xl shadow-sm relative overflow-hidden"
               >
 
                 {/* ❤️ WISHLIST */}
@@ -116,10 +117,17 @@ const ShopDetail = () => {
                       : addToWishlist(item)
 
                   }
-                  className="absolute top-2 right-2 text-lg"
+                  className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-sm"
                 >
 
-                  {liked ? "❤️" : "🤍"}
+                  <Heart
+                    size={16}
+                    className={
+                      liked
+                        ? "fill-red-500 text-red-500"
+                        : "text-gray-400"
+                    }
+                  />
 
                 </button>
 

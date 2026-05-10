@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import { Heart } from "lucide-react";
 
 const CategoryPreview = ({
   title,
@@ -93,7 +94,7 @@ const CategoryPreview = ({
 
             <div
               key={item.id}
-              className="bg-white rounded-2xl p-2 relative"
+              className="bg-white rounded-2xl p-2 relative overflow-hidden"
             >
 
               {/* ❤️ WISHLIST */}
@@ -105,10 +106,17 @@ const CategoryPreview = ({
                     : addToWishlist(item)
 
                 }
-                className="absolute top-2 right-2 text-lg z-10"
+                className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-sm"
               >
 
-                {liked ? "❤️" : "🤍"}
+                <Heart
+                  size={16}
+                  className={
+                    liked
+                      ? "fill-red-500 text-red-500"
+                      : "text-gray-400"
+                  }
+                />
 
               </button>
 

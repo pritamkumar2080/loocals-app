@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+import { Heart } from "lucide-react";
 
 const RandomProducts = () => {
 
@@ -76,7 +77,7 @@ const RandomProducts = () => {
 
             <div
               key={item.id}
-              className="bg-white p-2 rounded-lg shadow-sm relative"
+              className="bg-white p-2 rounded-lg shadow-sm relative overflow-hidden"
             >
 
               {/* ❤️ WISHLIST */}
@@ -88,10 +89,17 @@ const RandomProducts = () => {
                     : addToWishlist(item)
 
                 }
-                className="absolute top-2 right-2 text-lg z-10"
+                className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-sm"
               >
 
-                {liked ? "❤️" : "🤍"}
+                <Heart
+                  size={16}
+                  className={
+                    liked
+                      ? "fill-red-500 text-red-500"
+                      : "text-gray-400"
+                  }
+                />
 
               </button>
 

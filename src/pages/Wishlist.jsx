@@ -2,6 +2,7 @@ import React from "react";
 import BackHeader from "../components/BackHeader";
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
+import { Heart } from "lucide-react";
 
 const Wishlist = () => {
 
@@ -51,9 +52,10 @@ const Wishlist = () => {
 
         <div className="flex flex-col items-center justify-center mt-20">
 
-          <p className="text-5xl">
-            ❤️
-          </p>
+          <Heart
+            size={60}
+            className="fill-red-500 text-red-500"
+          />
 
           <p className="mt-3 text-gray-500">
             Your wishlist is empty
@@ -73,7 +75,7 @@ const Wishlist = () => {
 
               <div
                 key={item.id}
-                className="bg-white rounded-2xl p-3 shadow-sm relative"
+                className="bg-white rounded-2xl p-3 shadow-sm relative overflow-hidden"
               >
 
                 {/* ❤️ REMOVE */}
@@ -81,9 +83,14 @@ const Wishlist = () => {
                   onClick={() =>
                     removeFromWishlist(item.id)
                   }
-                  className="absolute top-2 right-2 text-red-500 text-lg"
+                  className="absolute top-2 right-2 z-10 bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-sm"
                 >
-                  ❤️
+
+                  <Heart
+                    size={16}
+                    className="fill-red-500 text-red-500"
+                  />
+
                 </button>
 
                 {/* IMAGE */}
