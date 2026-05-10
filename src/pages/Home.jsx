@@ -39,19 +39,31 @@ const Home = () => {
         color="bg-[#C0E1D2]"
       />
 
+       <CategoryPreview
+        title="Beauty product"
+       category="Beauty"
+       color="bg-white"
+       />
+
       <CategoryPreview
         title="Fresh Fruits"
         category="Fruits"
          color="bg-[#FF8383]"
       />
 
+            <CategoryPreview
+             title="Medicine"
+              category="Medicine"
+               color="bg-white"
+              />
+
       <CategoryPreview
         title="Daily Essentials"
         category="Grocery"
          color="bg-[#FFA02E]"
 
-      />
-
+      />          
+        
       {/* 🛍 RANDOM PRODUCTS */}
       <RandomProducts />
 

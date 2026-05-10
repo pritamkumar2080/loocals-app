@@ -11,6 +11,8 @@ import bevImg from "../assets/bread.avif";
 import groceryImg from "../assets/detergent.avif";
 import personalImg from "../assets/shampoo.avif";
 import stationeryImg from "../assets/notebook.avif";
+import Medicine from "../assets/combiflam.avif";
+import Beauty from "../assets/marslips.avif";
 
 const categories = [
   { name: "Fruits", img: fruitsImg },
@@ -21,6 +23,8 @@ const categories = [
   { name: "Grocery", img: groceryImg },
   { name: "Personal Care", img: personalImg },
   { name: "Stationery", img: stationeryImg },
+  { name: "Medicine", img: Medicine },
+  { name: "Beauty", img: Beauty },
 ];
 
 const CategoriesPage = () => {

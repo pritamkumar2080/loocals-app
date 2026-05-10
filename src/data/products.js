@@ -53,8 +53,61 @@ import img48 from "../assets/tape.avif";
 import img49 from "../assets/highlighter.avif";
 import img50 from "../assets/marker.avif";
 
+//medicine
+
+import img51 from "../assets/Combiflam.avif";
+import img52 from "../assets/crocin.avif";
+import img53 from "../assets/dolo650.avif";
+import img54 from "../assets/disprin.avif";
+import img55 from "../assets/digene.avif";
+import img56 from "../assets/eno.avif";
+import img57 from "../assets/vicks.avif";
+import img58 from "../assets/volini.avif";
+import img59 from "../assets/move.avif";
+import img60 from "../assets/bandaid.avif";
+import img61 from "../assets/dettol.avif";
+import img62 from "../assets/savlon.avif";
+import img63 from "../assets/benadryl.avif";
+import img64 from "../assets/cetrizine.avif";
+import img65 from "../assets/ors.avif";
+import img66 from "../assets/glucond.avif";
+import img67 from "../assets/pudinhara.avif";
+import img68 from "../assets/hajmola.avif";
+import img69 from "../assets/bermol.avif";
+import img70 from "../assets/iodex.avif";
 
 
+//beauty
+import img71 from "../assets/mabellinkajal.avif";
+import img72 from "../assets/reneekajal.avif";
+import img73 from "../assets/ellekajal.avif";
+import img74 from "../assets/mamaearthlips.avif";
+import img75 from "../assets/marslips.avif";
+import img76 from "../assets/mayebillinlips.avif";
+import img77 from "../assets/ellelips.avif";
+import img78 from "../assets/garniermenfac.avif";
+import img79 from "../assets/simplpefac.avif";
+import img80 from "../assets/garnierfac.avif";
+import img81 from "../assets/cetaphilfac.avif";
+import img82 from "../assets/mamaearthfac.avif";
+import img83 from "../assets/dotkeyfac.avif";
+import img84 from "../assets/haimalayafac.avif";
+import img85 from "../assets/mayebellinfoun.avif";
+import img86 from "../assets/lekmifoun.avif";
+import img87 from "../assets/pilgrimfoun.avif";
+import img88 from "../assets/marsfoun.avif";
+import img89 from "../assets/swissfoun.avif";
+import img90 from "../assets/lekmifoun.avif";
+import img91 from "../assets/cetaphilsuns.avif";
+import img92 from "../assets/dotkeysuns.avif";
+import img93 from "../assets/dermacosuns.avif";
+import img94 from "../assets/joyhyra.avif";
+import img95 from "../assets/lekimimositirizer.avif";
+import img100 from "../assets/dotkeymoisterizer.avif"
+import img96 from "../assets/lekimi9to5.avif";
+import img97 from "../assets/swissbeautykajal.avif";
+import img98 from "../assets/insightconcelar.avif";
+import img99 from "../assets/marslips.avif";
 
 
 export const products = [
@@ -226,20 +279,76 @@ export const products = [
   { id: 49, name: "Spinach", price: 20, shopId: 1, img: img6, category: "Vegetables" },
   { id: 50, name: "Cabbage", price: 45, shopId: 7, img: img4, category: "Vegetables" },
 
+  //medicine
+
+  { id: 51, name: "Combiflam", price: 120, shopId: 1, img: img51, category: "Medicine" },
+  { id: 52, name: "Crocin", price: 60, shopId: 6, img: img52, category: "Medicine" },
+  { id: 53, name: "Dolo 650", price: 150, shopId: 2, img: img53, category: "Medicine" },
+  { id: 54, name: "Disprin", price: 80, shopId: 2, img: img54, category: "Medicine" },
+  { id: 55, name: "Digene", price: 30, shopId: 1, img: img55, category: "Medicine" },
+  { id: 56, name: "ENO", price: 40, shopId: 6, img: img56, category: "Medicine" },
+  { id: 57, name: "Vicks Vaporub", price: 35, shopId: 2, img: img57, category: "Medicine" },
+  { id: 58, name: "Volini Spray", price: 50, shopId: 2, img: img58, category: "Medicine" },
+  { id: 59, name: "Moov Pain Relief", price: 20, shopId: 1, img: img59, category: "Medicine" },
+  { id: 60, name: "Band Aid", price: 42, shopId: 7, img: img60, category: "Medicine" },
+  { id: 61, name: "Dettol Antiseptic", price: 49, shopId: 7, img: img61, category: "Medicine" },
+  { id: 62, name: "Savlon", price: 45, shopId: 7, img: img62, category: "Medicine" },
+  { id: 63, name: "Benadryl Syrup", price: 45, shopId: 7, img: img63, category: "Medicine" },
+  { id: 64, name: "Cetirizine", price: 49, shopId: 7, img: img64, category: "Medicine" },
+  { id: 65, name: "ORS Powder", price: 45, shopId: 7, img: img65, category: "Medicine" },
+  { id: 66, name: "Glucon D", price: 47, shopId: 7, img: img66, category: "Medicine" },
+  { id: 67, name: "Pudin Hara", price: 65, shopId: 7, img: img67, category: "Medicine" },
+  { id: 68, name: "Hajmola", price: 25, shopId: 7, img: img68, category: "Medicine" },
+  { id: 69, name: "Burnol", price: 35, shopId: 7, img: img69, category: "Medicine" },
+  { id: 70, name: "Iodex", price: 45, shopId: 7, img: img70, category: "Medicine" },
+
+  //beauty
+
+    { id: 71, name: "Mabellin kajal", price: 220, shopId: 1, img: img71, category: "Beauty" },
+    { id: 72, name: "Rennee kajal", price: 130, shopId: 1, img: img72, category: "Beauty" },
+    { id: 73, name: "Elle kajal", price: 150, shopId: 1, img: img73, category: "Beauty" },
+    { id: 74, name: "MamaEarth Lipsticks", price: 160, shopId: 1, img: img74, category: "Beauty" },
+    { id: 75, name: "Mars LIpsticks", price: 180, shopId: 1, img: img75, category: "Beauty" },
+    { id: 76, name: "MAyebellin Lipsticks", price: 320, shopId: 1, img: img76, category: "Beauty" },
+    { id: 77, name: "Elle Lipsticks", price: 120, shopId: 1, img: img77, category: "Beauty" },
+    { id: 78, name: "Garnier Men Facewash", price: 220, shopId: 1, img: img78, category: "Beauty" },
+    { id: 79, name: "simple facewash", price: 120, shopId: 1, img: img79, category: "Beauty" },
+    { id: 80, name: "Garnier facewash", price: 120, shopId: 1, img: img80, category: "Beauty" },
+    { id: 81, name: "cetaphil facewash ", price: 180, shopId: 1, img: img81, category: "Beauty" },
+    { id: 82, name: "mamaearth Facewash", price: 190, shopId: 1, img: img82, category: "Beauty" },
+    { id: 83, name: "dotandkey facewash", price: 200, shopId: 1, img: img83, category: "Beauty" },
+    { id: 84, name: "himalya Facewash", price: 160, shopId: 1, img: img84, category: "Beauty" },
+    { id: 85, name: "Mayebellin foundation", price: 150, shopId: 1, img: img85, category: "Beauty" },
+    { id: 86, name: "Lekmi Foundation", price: 180, shopId: 1, img: img86, category: "Beauty" },
+    { id: 87, name: "Pilgrim Foundation", price: 190, shopId: 1, img: img87, category: "Beauty" },
+    { id: 88, name: "Swiss Foundation", price: 120, shopId: 1, img: img88, category: "Beauty" },
+    { id: 89, name: "Lekmi Foundation", price: 150, shopId: 1, img: img89, category: "Beauty" },
+    { id: 90, name: "Cetaphil Sunscreen", price: 130, shopId: 1, img: img90, category: "Beauty" },
+    { id: 91, name: "dotandkey Sunscreen", price: 180, shopId: 1, img: img91, category: "Beauty" },
+    { id: 92, name: "Dermaco Sunscreen", price: 190, shopId: 1, img: img92, category: "Beauty" },
+    { id: 93, name: "Joy Hydra", price: 120, shopId: 1, img: img93, category: "Beauty" },
+    { id: 94, name: "lekmi Moisterizer", price: 110, shopId: 1, img: img94, category: "Beauty" },
+    { id: 95, name: "Cetaphil moistrizer", price: 120, shopId: 1, img: img95, category: "Beauty" },
+    { id: 96, name: "lekmi 9to5 cc", price: 120, shopId: 1, img: img96, category: "Beauty" },
+    { id: 97, name: "swiss kajal", price: 420, shopId: 1, img: img97, category: "Beauty" },
+    { id: 98, name: "cream", price: 430, shopId: 1, img: img98, category: "Beauty" },
+    { id: 99, name: "Insight concelar", price: 220, shopId: 1, img: img99, category: "Beauty" },
+    { id: 100, name: "Mars Lipsticks", price: 190, shopId: 1, img: img100, category: "Beauty" },
+
   // 🔥 SAME PRODUCTS IN MULTIPLE SHOPS
 
-{ id: 51, name: "Milk", price: 55, shopId: 2, img: img12, category: "Dairy" },
-{ id: 52, name: "Milk", price: 60, shopId: 3, img: img12, category: "Dairy" },
+{ id: 101, name: "Milk", price: 55, shopId: 2, img: img12, category: "Dairy" },
+{ id: 102, name: "Milk", price: 60, shopId: 3, img: img12, category: "Dairy" },
 
-{ id: 53, name: "Lays", price: 22, shopId: 2, img: img11, category: "Snacks" },
-{ id: 54, name: "Lays", price: 25, shopId: 3, img: img11, category: "Snacks" },
+{ id: 102, name: "Lays", price: 22, shopId: 2, img: img11, category: "Snacks" },
+{ id: 104, name: "Lays", price: 25, shopId: 3, img: img11, category: "Snacks" },
 
-{ id: 55, name: "Rice", price: 85, shopId: 1, img: img18, category: "Grocery" },
-{ id: 56, name: "Rice", price: 90, shopId: 3, img: img18, category: "Grocery" },
+{ id: 105, name: "Rice", price: 85, shopId: 1, img: img18, category: "Grocery" },
+{ id: 106, name: "Rice", price: 90, shopId: 3, img: img18, category: "Grocery" },
 
-{ id: 57, name: "Apple", price: 130, shopId: 2, img: img10, category: "Fruits" },
-{ id: 58, name: "Apple", price: 125, shopId: 3, img: img10, category: "Fruits" },
+{ id: 107, name: "Apple", price: 130, shopId: 2, img: img10, category: "Fruits" },
+{ id: 108, name: "Apple", price: 125, shopId: 3, img: img10, category: "Fruits" },
 
-{ id: 59, name: "Soap", price: 35, shopId: 1, img: img33, category: "Personal Care" },
-{ id: 60, name: "Soap", price: 32, shopId: 3, img: img33, category: "Personal Care" },
+{ id: 109, name: "Soap", price: 35, shopId: 1, img: img33, category: "Personal Care" },
+{ id: 110, name: "Soap", price: 32, shopId: 3, img: img33, category: "Personal Care" },
 ];
