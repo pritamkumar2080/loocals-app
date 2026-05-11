@@ -1,4 +1,5 @@
 import BackHeader from "../components/BackHeader";
+
 import React, {
   useState,
   useEffect,
@@ -16,6 +17,7 @@ import { db } from "../firebase";
 import { shops } from "../data/shops";
 
 import { useCart } from "../context/CartContext";
+
 import { useWishlist } from "../context/WishlistContext";
 
 import { Heart } from "lucide-react";
@@ -32,11 +34,11 @@ const ShopDetail = () => {
   const [search, setSearch] =
     useState("");
 
-  // FIREBASE PRODUCTS
+  // PRODUCTS
   const [products, setProducts] =
     useState([]);
 
-  // FETCH PRODUCTS FROM FIREBASE
+  // FETCH PRODUCTS
   useEffect(() => {
 
     const productsRef = ref(
@@ -50,7 +52,32 @@ const ShopDetail = () => {
 
       if (data) {
 
-        setProducts(data);
+        // OBJECT → ARRAY
+        const productArray =
+          Object.values(data);
+
+        // ✅ FIX IMAGE PATH
+        const fixedProducts =
+          productArray.map((item) => {
+
+            // FILE NAME
+            const fileName =
+              item.img
+                ?.split("/")
+                .pop();
+
+            return {
+
+              ...item,
+
+              // NEW IMAGE PATH
+              img: `/images/${fileName}`,
+
+            };
+
+          });
+
+        setProducts(fixedProducts);
 
       }
 
@@ -71,44 +98,60 @@ const ShopDetail = () => {
     isInWishlist,
   } = useWishlist();
 
+  // SHOP
   const shop = shops.find(
-    (s) => Number(s.id) === shopId
+    (s) =>
+      Number(s.id) === shopId
   );
 
   // FILTER PRODUCTS
   const shopProducts = products
     .filter(
-      (p) => Number(p.shopId) === shopId
+      (p) =>
+        Number(p.shopId) ===
+        shopId
     )
     .filter((item) =>
       item.name
         .toLowerCase()
-        .includes(search.toLowerCase())
+        .includes(
+          search.toLowerCase()
+        )
     );
 
   // GET ITEM QTY
   const getQty = (itemId) => {
 
-    const shopItems = Array.isArray(
-      cart[shopId]
-    )
-      ? cart[shopId]
-      : [];
+    const shopItems =
+      Array.isArray(
+        cart[shopId]
+      )
+        ? cart[shopId]
+        : [];
 
-    const found = shopItems.find(
-      (item) => item.id === itemId
-    );
+    const found =
+      shopItems.find(
+        (item) =>
+          item.id === itemId
+      );
 
-    return found ? found.qty : 0;
+    return found
+      ? found.qty
+      : 0;
 
   };
 
+  // SHOP NOT FOUND
   if (!shop) {
 
     return (
+
       <p className="p-4">
+
         Shop not found
+
       </p>
+
     );
 
   }
@@ -117,6 +160,7 @@ const ShopDetail = () => {
 
     <div className="p-4 pb-20 bg-gray-50 min-h-screen">
 
+      {/* HEADER */}
       <BackHeader title="" />
 
       {/* SHOP IMAGE */}
@@ -128,12 +172,16 @@ const ShopDetail = () => {
 
       {/* SHOP TITLE */}
       <h2 className="text-xl font-bold">
+
         {shop.title}
+
       </h2>
 
       {/* INFO */}
       <p className="text-sm text-gray-500 mb-4">
+
         ⭐ {shop.rating} • ⏱ {shop.time}
+
       </p>
 
       {/* SEARCH */}
@@ -153,7 +201,9 @@ const ShopDetail = () => {
         <div className="bg-white rounded-3xl p-8 text-center">
 
           <p className="text-gray-500">
+
             No products found
+
           </p>
 
         </div>
@@ -162,124 +212,143 @@ const ShopDetail = () => {
 
         <div className="grid grid-cols-3 gap-3">
 
-          {shopProducts.map((item) => {
+          {shopProducts.map(
+            (item) => {
 
-            const qty = getQty(item.id);
+              const qty =
+                getQty(item.id);
 
-            const liked =
-              isInWishlist(item.id);
+              const liked =
+                isInWishlist(
+                  item.id
+                );
 
-            return (
+              return (
 
-              <div
-                key={item.id}
-                className="bg-white p-2 rounded-2xl shadow-sm relative overflow-hidden"
-              >
-
-                {/* ❤️ WISHLIST */}
-                <button
-                  onClick={() =>
-
-                    liked
-                      ? removeFromWishlist(
-                          item.id
-                        )
-                      : addToWishlist(
-                          item
-                        )
-
-                  }
-                  className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-sm"
+                <div
+                  key={item.id}
+                  className="bg-white p-2 rounded-2xl shadow-sm relative overflow-hidden"
                 >
 
-                  <Heart
-                    size={16}
-                    className={
+                  {/* ❤️ WISHLIST */}
+                  <button
+                    onClick={() =>
+
                       liked
-                        ? "fill-red-500 text-red-500"
-                        : "text-gray-400"
+                        ? removeFromWishlist(
+                            item.id
+                          )
+                        : addToWishlist(
+                            item
+                          )
+
                     }
+                    className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-sm"
+                  >
+
+                    <Heart
+                      size={16}
+                      className={
+                        liked
+                          ? "fill-red-500 text-red-500"
+                          : "text-gray-400"
+                      }
+                    />
+
+                  </button>
+
+                  {/* IMAGE */}
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="w-full h-24 object-cover rounded-xl mb-2"
                   />
 
-                </button>
+                  {/* NAME */}
+                  <p className="text-xs line-clamp-1">
 
-                {/* IMAGE */}
-                <img
-                  src={item.img}
-                  alt={item.name}
-                  className="w-full h-24 object-cover rounded-xl mb-2"
-                />
+                    {item.name}
 
-                {/* NAME */}
-                <p className="text-xs line-clamp-1">
-                  {item.name}
-                </p>
-
-                {/* PRICE + BUTTON */}
-                <div className="flex justify-between items-center mt-2">
-
-                  <p className="text-sm font-bold">
-                    ₹{item.price}
                   </p>
 
-                  {/* ADD BUTTON */}
-                  {qty === 0 ? (
+                  {/* PRICE + BUTTON */}
+                  <div className="flex justify-between items-center mt-2">
 
-                    <button
-                      onClick={() =>
-                        addToCart(item)
-                      }
-                      className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
-                    >
-                      ADD
-                    </button>
+                    <p className="text-sm font-bold">
 
-                  ) : (
+                      ₹{item.price}
 
-                    <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
+                    </p>
 
-                      {/* MINUS */}
+                    {/* BUTTON */}
+                    {qty === 0 ? (
+
                       <button
                         onClick={() =>
-                          decreaseQty(
-                            item.shopId,
-                            item.id
+                          addToCart(
+                            item
                           )
                         }
-                        className="px-2 py-1 text-sm font-bold"
+                        className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
                       >
-                        −
+
+                        ADD
+
                       </button>
 
-                      {/* QTY */}
-                      <span className="px-2 text-xs font-semibold">
-                        {qty}
-                      </span>
+                    ) : (
 
-                      {/* PLUS */}
-                      <button
-                        onClick={() =>
-                          increaseQty(
-                            item.shopId,
-                            item.id
-                          )
-                        }
-                        className="px-2 py-1 text-sm font-bold"
-                      >
-                        +
-                      </button>
+                      <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
 
-                    </div>
+                        {/* MINUS */}
+                        <button
+                          onClick={() =>
+                            decreaseQty(
+                              item.shopId,
+                              item.id
+                            )
+                          }
+                          className="px-2 py-1 text-sm font-bold"
+                        >
 
-                  )}
+                          −
+
+                        </button>
+
+                        {/* QTY */}
+                        <span className="px-2 text-xs font-semibold">
+
+                          {qty}
+
+                        </span>
+
+                        {/* PLUS */}
+                        <button
+                          onClick={() =>
+                            increaseQty(
+                              item.shopId,
+                              item.id
+                            )
+                          }
+                          className="px-2 py-1 text-sm font-bold"
+                        >
+
+                          +
+
+                        </button>
+
+                      </div>
+
+                    )}
+
+                  </div>
 
                 </div>
 
-              </div>
+              );
 
-            );
-
-          })}
+            }
+          )}
 
         </div>
 

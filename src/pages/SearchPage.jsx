@@ -24,17 +24,19 @@ import { Mic } from "lucide-react";
 
 const SearchPage = () => {
 
-  const location = useLocation();
+  const location =
+    useLocation();
 
   const [search, setSearch] =
     useState(
-      location.state?.query || ""
+      location.state?.query ||
+        ""
     );
 
   const [listening, setListening] =
     useState(false);
 
-  // FIREBASE PRODUCTS
+  // PRODUCTS
   const [products, setProducts] =
     useState([]);
 
@@ -52,7 +54,32 @@ const SearchPage = () => {
 
       if (data) {
 
-        setProducts(data);
+        // OBJECT → ARRAY
+        const productArray =
+          Object.values(data);
+
+        // ✅ FIX IMAGE PATH
+        const fixedProducts =
+          productArray.map((item) => {
+
+            // FILE NAME
+            const fileName =
+              item.img
+                ?.split("/")
+                .pop();
+
+            return {
+
+              ...item,
+
+              // NEW IMAGE PATH
+              img: `/images/${fileName}`,
+
+            };
+
+          });
+
+        setProducts(fixedProducts);
 
       }
 
@@ -63,9 +90,10 @@ const SearchPage = () => {
   const recognitionRef =
     useRef(null);
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
-  // MATCHING PRODUCTS
+  // MATCH PRODUCTS
   const matchedProducts =
     products.filter((item) =>
       item.name
@@ -93,12 +121,15 @@ const SearchPage = () => {
   // MIC FUNCTION
   const handleMic = () => {
 
-    if (!recognitionRef.current) {
+    if (
+      !recognitionRef.current
+    ) {
 
       const recognition =
         new window.webkitSpeechRecognition();
 
-      recognition.lang = "en-IN";
+      recognition.lang =
+        "en-IN";
 
       recognition.continuous =
         false;
@@ -106,11 +137,12 @@ const SearchPage = () => {
       recognition.interimResults =
         false;
 
-      recognition.onstart = () => {
+      recognition.onstart =
+        () => {
 
-        setListening(true);
+          setListening(true);
 
-      };
+        };
 
       recognition.onresult = (
         event
@@ -120,7 +152,8 @@ const SearchPage = () => {
 
         for (
           let i = 0;
-          i < event.results.length;
+          i <
+          event.results.length;
           i++
         ) {
 
@@ -150,15 +183,18 @@ const SearchPage = () => {
 
         setListening(false);
 
-        alert("Mic error 😢");
+        alert(
+          "Mic error 😢"
+        );
 
       };
 
-      recognition.onend = () => {
+      recognition.onend =
+        () => {
 
-        setListening(false);
+          setListening(false);
 
-      };
+        };
 
       recognitionRef.current =
         recognition;
@@ -175,7 +211,7 @@ const SearchPage = () => {
 
       <BackHeader title="" />
 
-      {/* SEARCH INPUT */}
+      {/* SEARCH */}
       <div className="flex items-center bg-white border rounded-full px-4 py-3 mb-5 gap-2 shadow-sm">
 
         <input
@@ -192,7 +228,9 @@ const SearchPage = () => {
 
         {/* MIC */}
         <button
-          onClick={handleMic}
+          onClick={
+            handleMic
+          }
         >
 
           <Mic
@@ -208,7 +246,8 @@ const SearchPage = () => {
       </div>
 
       {/* RESULTS */}
-      {matchedShops.length === 0 ? (
+      {matchedShops.length ===
+      0 ? (
 
         <div className="bg-white rounded-3xl p-8 text-center shadow-sm">
 
@@ -222,62 +261,64 @@ const SearchPage = () => {
 
       ) : (
 
-        matchedShops.map((shop) => (
+        matchedShops.map(
+          (shop) => (
 
-          <div
-            key={shop.id}
-            onClick={() =>
-              navigate(
-                `/shop/${shop.id}`
-              )
-            }
-            className="bg-white p-4 rounded-3xl mb-4 shadow-sm cursor-pointer active:scale-[0.98] transition"
-          >
-
-            {/* SHOP NAME */}
-            <h3 className="font-bold text-lg">
-
-              {shop.title}
-
-            </h3>
-
-            {/* INFO */}
-            <p className="text-xs text-gray-500 mt-1">
-
-              ⭐ {shop.rating}
-              {" • "}
-              ⏱ {shop.time}
-
-            </p>
-
-            {/* PRODUCTS */}
-            <div className="mt-3 flex flex-wrap gap-2">
-
-              {matchedProducts
-                .filter(
-                  (p) =>
-                    p.shopId ===
-                    shop.id
+            <div
+              key={shop.id}
+              onClick={() =>
+                navigate(
+                  `/shop/${shop.id}`
                 )
-                .slice(0, 5)
-                .map((p) => (
+              }
+              className="bg-white p-4 rounded-3xl mb-4 shadow-sm cursor-pointer active:scale-[0.98] transition"
+            >
 
-                  <span
-                    key={p.id}
-                    className="bg-green-50 text-green-700 text-xs px-3 py-1 rounded-full"
-                  >
+              {/* SHOP NAME */}
+              <h3 className="font-bold text-lg">
 
-                    {p.name}
+                {shop.title}
 
-                  </span>
+              </h3>
 
-                ))}
+              {/* INFO */}
+              <p className="text-xs text-gray-500 mt-1">
+
+                ⭐ {shop.rating}
+                {" • "}
+                ⏱ {shop.time}
+
+              </p>
+
+              {/* PRODUCTS */}
+              <div className="mt-3 flex flex-wrap gap-2">
+
+                {matchedProducts
+                  .filter(
+                    (p) =>
+                      p.shopId ===
+                      shop.id
+                  )
+                  .slice(0, 5)
+                  .map((p) => (
+
+                    <span
+                      key={p.id}
+                      className="bg-green-50 text-green-700 text-xs px-3 py-1 rounded-full"
+                    >
+
+                      {p.name}
+
+                    </span>
+
+                  ))}
+
+              </div>
 
             </div>
 
-          </div>
-
-        ))
+          )
+        )
 
       )}
 

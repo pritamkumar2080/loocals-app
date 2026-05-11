@@ -29,7 +29,7 @@ const CategoryPage = () => {
 
   const navigate = useNavigate();
 
-  // FIREBASE PRODUCTS
+  // PRODUCTS
   const [products, setProducts] =
     useState([]);
 
@@ -51,7 +51,32 @@ const CategoryPage = () => {
 
       if (data) {
 
-        setProducts(data);
+        // OBJECT → ARRAY
+        const productArray =
+          Object.values(data);
+
+        // FIX IMAGE PATH
+        const fixedProducts =
+          productArray.map((item) => {
+
+            // FILE NAME
+            const fileName =
+              item.img
+                ?.split("/")
+                .pop();
+
+            return {
+
+              ...item,
+
+              // NEW IMAGE PATH
+              img: `/images/${fileName}`,
+
+            };
+
+          });
+
+        setProducts(fixedProducts);
 
       }
 
@@ -66,7 +91,7 @@ const CategoryPage = () => {
     decreaseQty,
   } = useCart();
 
-  // SAFE DECODE
+  // CATEGORY NAME
   const decodedName =
     decodeURIComponent(name || "")
       .toLowerCase()
@@ -79,14 +104,9 @@ const CategoryPage = () => {
       if (!item.category)
         return false;
 
-      const cat =
-        item.category
-          .toLowerCase()
-          .trim();
-
-      return cat.includes(
-        decodedName
-      );
+      return item.category
+        .toLowerCase()
+        .includes(decodedName);
 
     })
     .filter((item) =>
@@ -97,7 +117,7 @@ const CategoryPage = () => {
         )
     );
 
-  // GROUP BY SHOP
+  // GROUP PRODUCTS
   const grouped = {};
 
   filtered.forEach((item) => {
@@ -114,7 +134,7 @@ const CategoryPage = () => {
 
   });
 
-  // GET SHOP NAME
+  // SHOP NAME
   const getShopName = (id) => {
 
     const shop = shops.find(
@@ -128,7 +148,7 @@ const CategoryPage = () => {
 
   };
 
-  // GET ITEM QTY
+  // ITEM QTY
   const getQty = (itemId) => {
 
     let qty = 0;
@@ -213,18 +233,7 @@ const CategoryPage = () => {
           (shopId) => {
 
             const items =
-              Array.isArray(
-                grouped[shopId]
-              )
-                ? grouped[
-                    shopId
-                  ]
-                : [];
-
-            if (
-              items.length === 0
-            )
-              return null;
+              grouped[shopId];
 
             return (
 
@@ -282,7 +291,7 @@ const CategoryPage = () => {
 
                           </p>
 
-                          {/* PRICE + BUTTON */}
+                          {/* PRICE */}
                           <div className="mt-2 flex justify-between items-center">
 
                             <p className="text-sm font-bold">
@@ -306,7 +315,9 @@ const CategoryPage = () => {
                                 }
                                 className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
                               >
+
                                 ADD
+
                               </button>
 
                             ) : (
@@ -323,7 +334,9 @@ const CategoryPage = () => {
                                   }
                                   className="px-2 py-1 text-sm font-bold"
                                 >
+
                                   −
+
                                 </button>
 
                                 {/* QTY */}
@@ -345,7 +358,9 @@ const CategoryPage = () => {
                                   }
                                   className="px-2 py-1 text-sm font-bold"
                                 >
+
                                   +
+
                                 </button>
 
                               </div>
@@ -375,6 +390,7 @@ const CategoryPage = () => {
     </div>
 
   );
+
 };
 
 export default CategoryPage;

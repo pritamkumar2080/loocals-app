@@ -3,29 +3,57 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 
-// 🔥 IMPORT ALL IMAGES
-import fruitsImg from "../assets/banana.avif";
-import vegImg from "../assets/cabbage.avif";
-import dairyImg from "../assets/milk.avif";
-import snacksImg from "../assets/lays.avif";
-import bevImg from "../assets/bread.avif";
-import groceryImg from "../assets/detergent.avif";
-import personalImg from "../assets/shampoo.avif";
-import stationeryImg from "../assets/notebook.avif";
-import Medicine from "../assets/Combiflam.avif";
-import Beauty from "../assets/marslips.avif";
-
+// ✅ PUBLIC IMAGES PATH
 const categories = [
-  { name: "Fruits", img: fruitsImg },
-  { name: "Vegetables", img: vegImg },
-  { name: "Dairy", img: dairyImg },
-  { name: "Snacks", img: snacksImg },
-  { name: "Beverages", img: bevImg },
-  { name: "Grocery", img: groceryImg },
-  { name: "Personal Care", img: personalImg },
-  { name: "Stationery", img: stationeryImg },
-  { name: "Medicine", img: Medicine },
-  { name: "Beauty", img: Beauty },
+  {
+    name: "Fruits",
+    img: "/images/banana.avif",
+  },
+
+  {
+    name: "Vegetables",
+    img: "/images/cabbage.avif",
+  },
+
+  {
+    name: "Dairy",
+    img: "/images/milk.avif",
+  },
+
+  {
+    name: "Snacks",
+    img: "/images/lays.avif",
+  },
+
+  {
+    name: "Beverages",
+    img: "/images/bread.avif",
+  },
+
+  {
+    name: "Grocery",
+    img: "/images/detergent.avif",
+  },
+
+  {
+    name: "Personal Care",
+    img: "/images/shampoo.avif",
+  },
+
+  {
+    name: "Stationery",
+    img: "/images/notebook.avif",
+  },
+
+  {
+    name: "Medicine",
+    img: "/images/Combiflam.avif",
+  },
+
+  {
+    name: "Beauty",
+    img: "/images/marslips.avif",
+  },
 ];
 
 const CategoriesPage = () => {
@@ -36,7 +64,7 @@ const CategoriesPage = () => {
   const [search, setSearch] =
     useState("");
 
-  // FILTER CATEGORIES
+  // FILTER CATEGORY
   const filteredCategories =
     categories.filter((cat) =>
       cat.name
@@ -51,7 +79,7 @@ const CategoriesPage = () => {
       {/* HEADER */}
       <BackHeader title="All Categories" />
 
-      {/* SEARCH BAR */}
+      {/* SEARCH */}
       <div className="my-4">
 
         <SearchBar
@@ -62,12 +90,12 @@ const CategoriesPage = () => {
 
       </div>
 
-      {/* GRID */}
+      {/* EMPTY */}
       {filteredCategories.length === 0 ? (
 
-        <div className="bg-white rounded-3xl p-8 text-center">
+        <div className="bg-white rounded-3xl p-8 text-center shadow-sm">
 
-          <p className="text-gray-500">
+          <p className="text-gray-500 text-sm">
             No category found
           </p>
 
@@ -75,6 +103,7 @@ const CategoriesPage = () => {
 
       ) : (
 
+        /* GRID */
         <div className="grid grid-cols-4 gap-3">
 
           {filteredCategories.map(
@@ -89,18 +118,18 @@ const CategoriesPage = () => {
                     )}`
                   )
                 }
-                className="bg-white p-3 rounded-xl shadow-sm text-center cursor-pointer active:scale-95 hover:shadow-md transition"
+                className="bg-white p-3 rounded-2xl shadow-sm text-center cursor-pointer active:scale-95 hover:shadow-md transition duration-200"
               >
 
                 {/* IMAGE */}
                 <img
                   src={cat.img}
                   alt={cat.name}
-                  className="w-12 h-12 mx-auto mb-2 object-contain"
+                  className="w-14 h-14 mx-auto mb-2 object-contain"
                 />
 
                 {/* NAME */}
-                <p className="text-[12px] font-medium leading-tight">
+                <p className="text-[12px] font-medium leading-tight text-gray-700">
 
                   {cat.name}
 

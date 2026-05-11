@@ -1,14 +1,3 @@
-import img1 from "../assets/shop1.png";
-import img2 from "../assets/shop3.jpeg";
-import img3 from "../assets/shop2.jpeg";
-import img4 from "../assets/shop3.jpeg";
-import img5 from "../assets/shop2.jpeg";
-import img6 from "../assets/shop2.jpeg";
-import img7 from "../assets/shop2.jpeg";
-import img8 from "../assets/shop3.jpeg";
-import img9 from "../assets/shop2.jpeg";
-import img10 from "../assets/shop2.jpeg";
-
 export const shops = [
   {
     id: 1,
@@ -16,97 +5,106 @@ export const shops = [
     offer: "20% OFF",
     rating: "4.5",
     time: "20 min",
-    img: img1,
+    img: "/images/shop1.png",
     lat: 28.6139,
     lng: 77.2090,
   },
+
   {
     id: 2,
-    title: "Puja kirana",
+    title: "Puja Kirana",
     offer: "15% OFF",
     rating: "4.3",
     time: "25 min",
-    img: img2,
+    img: "/images/shop2.jpeg",
     lat: 28.6100,
     lng: 77.2050,
   },
+
   {
     id: 3,
     title: "Nabin Medical",
     offer: "10% OFF",
     rating: "4.6",
     time: "30 min",
-    img: img3,
+    img: "/images/shop3.jpeg",
     lat: 28.6160,
     lng: 77.2105,
   },
+
   {
     id: 4,
     title: "City Mart",
     offer: "5% OFF",
     rating: "4.2",
     time: "18 min",
-    img: img4,
+    img: "/images/shop4.jpeg",
     lat: 28.6200,
     lng: 77.2150,
   },
+
   {
     id: 5,
     title: "Local Store",
     offer: "8% OFF",
     rating: "4.1",
     time: "22 min",
-    img: img5,
+    img: "/images/shop5.jpeg",
     lat: 28.6050,
     lng: 77.2000,
   },
+
   {
     id: 6,
     title: "Daily Needs",
     offer: "12% OFF",
     rating: "4.4",
     time: "24 min",
-    img: img6,
+    img: "/images/shop6.jpeg",
     lat: 28.6080,
     lng: 77.1980,
   },
+
   {
     id: 7,
     title: "Super Mart",
     offer: "18% OFF",
     rating: "4.3",
     time: "26 min",
-    img: img7,
+    img: "/images/shop7.jpeg",
     lat: 28.6180,
     lng: 77.2200,
   },
+
   {
     id: 8,
     title: "Organic Hub",
     offer: "25% OFF",
     rating: "4.7",
     time: "28 min",
-    img: img8,
+    img: "/images/shop8.jpeg",
     lat: 28.6220,
     lng: 77.2250,
   },
+
   {
     id: 9,
     title: "Quick Shop",
     offer: "10% OFF",
     rating: "4.0",
     time: "19 min",
-    img: img9,
+    img: "/images/shop9.jpeg",
     lat: 28.6120,
     lng: 77.2020,
   },
+
   {
     id: 10,
     title: "Smart Store",
     offer: "14% OFF",
     rating: "4.5",
     time: "21 min",
-    img: img10,
+    img: "/images/shop10.jpeg",
     lat: 28.6090,
     lng: 77.2070,
   },

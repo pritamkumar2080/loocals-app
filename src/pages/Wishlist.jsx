@@ -13,13 +13,14 @@ import {
 import { db } from "../firebase";
 
 import { useWishlist } from "../context/WishlistContext";
+
 import { useCart } from "../context/CartContext";
 
 import { Heart } from "lucide-react";
 
 const Wishlist = () => {
 
-  // FIREBASE PRODUCTS
+  // PRODUCTS
   const [products, setProducts] =
     useState([]);
 
@@ -37,7 +38,32 @@ const Wishlist = () => {
 
       if (data) {
 
-        setProducts(data);
+        // OBJECT → ARRAY
+        const productArray =
+          Object.values(data);
+
+        // ✅ FIX IMAGE PATH
+        const fixedProducts =
+          productArray.map((item) => {
+
+            // FILE NAME
+            const fileName =
+              item.img
+                ?.split("/")
+                .pop();
+
+            return {
+
+              ...item,
+
+              // NEW IMAGE PATH
+              img: `/images/${fileName}`,
+
+            };
+
+          });
+
+        setProducts(fixedProducts);
 
       }
 
@@ -67,7 +93,9 @@ const Wishlist = () => {
             p.id === wishItem.id
         );
 
-      return updated || wishItem;
+      return (
+        updated || wishItem
+      );
 
     });
 
@@ -76,22 +104,28 @@ const Wishlist = () => {
 
     let qty = 0;
 
-    Object.values(cart).forEach((shopItems) => {
+    Object.values(cart).forEach(
+      (shopItems) => {
 
-      if (!Array.isArray(shopItems))
-        return;
+        if (
+          !Array.isArray(shopItems)
+        )
+          return;
 
-      const found = shopItems.find(
-        (i) => i.id === itemId
-      );
+        const found =
+          shopItems.find(
+            (i) =>
+              i.id === itemId
+          );
 
-      if (found) {
+        if (found) {
 
-        qty = found.qty;
+          qty = found.qty;
+
+        }
 
       }
-
-    });
+    );
 
     return qty;
 
@@ -114,7 +148,9 @@ const Wishlist = () => {
           />
 
           <p className="mt-3 text-gray-500">
+
             Your wishlist is empty
+
           </p>
 
         </div>
@@ -123,118 +159,129 @@ const Wishlist = () => {
 
         <div className="grid grid-cols-2 gap-3 mt-4">
 
-          {updatedWishlist.map((item) => {
+          {updatedWishlist.map(
+            (item) => {
 
-            const qty = getQty(item.id);
+              const qty =
+                getQty(item.id);
 
-            return (
+              return (
 
-              <div
-                key={item.id}
-                className="bg-white rounded-2xl p-3 shadow-sm relative overflow-hidden"
-              >
-
-                {/* ❤️ REMOVE */}
-                <button
-                  onClick={() =>
-                    removeFromWishlist(
-                      item.id
-                    )
-                  }
-                  className="absolute top-2 right-2 z-10 bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-sm"
+                <div
+                  key={item.id}
+                  className="bg-white rounded-2xl p-3 shadow-sm relative overflow-hidden"
                 >
 
-                  <Heart
-                    size={16}
-                    className="fill-red-500 text-red-500"
+                  {/* ❤️ REMOVE */}
+                  <button
+                    onClick={() =>
+                      removeFromWishlist(
+                        item.id
+                      )
+                    }
+                    className="absolute top-2 right-2 z-10 bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-sm"
+                  >
+
+                    <Heart
+                      size={16}
+                      className="fill-red-500 text-red-500"
+                    />
+
+                  </button>
+
+                  {/* IMAGE */}
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="w-full h-28 object-cover rounded-xl"
                   />
 
-                </button>
+                  {/* NAME */}
+                  <p className="text-sm mt-2 font-medium line-clamp-1">
 
-                {/* IMAGE */}
-                <img
-                  src={item.img}
-                  alt={item.name}
-                  className="w-full h-28 object-cover rounded-xl"
-                />
-
-                {/* NAME */}
-                <p className="text-sm mt-2 font-medium line-clamp-1">
-
-                  {item.name}
-
-                </p>
-
-                {/* PRICE + BUTTON */}
-                <div className="mt-2 flex justify-between items-center">
-
-                  {/* PRICE */}
-                  <p className="text-sm font-bold">
-
-                    ₹{item.price}
+                    {item.name}
 
                   </p>
 
-                  {/* BUTTON */}
-                  {qty === 0 ? (
+                  {/* PRICE + BUTTON */}
+                  <div className="mt-2 flex justify-between items-center">
 
-                    <button
-                      onClick={() =>
-                        addToCart(item)
-                      }
-                      className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
-                    >
-                      ADD
-                    </button>
+                    {/* PRICE */}
+                    <p className="text-sm font-bold">
 
-                  ) : (
+                      ₹{item.price}
 
-                    <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
+                    </p>
 
-                      {/* MINUS */}
+                    {/* BUTTON */}
+                    {qty === 0 ? (
+
                       <button
                         onClick={() =>
-                          decreaseQty(
-                            item.shopId,
-                            item.id
+                          addToCart(
+                            item
                           )
                         }
-                        className="px-2 py-1 text-sm font-bold"
+                        className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
                       >
-                        −
+
+                        ADD
+
                       </button>
 
-                      {/* QTY */}
-                      <span className="px-2 text-xs font-semibold">
+                    ) : (
 
-                        {qty}
+                      <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
 
-                      </span>
+                        {/* MINUS */}
+                        <button
+                          onClick={() =>
+                            decreaseQty(
+                              item.shopId,
+                              item.id
+                            )
+                          }
+                          className="px-2 py-1 text-sm font-bold"
+                        >
 
-                      {/* PLUS */}
-                      <button
-                        onClick={() =>
-                          increaseQty(
-                            item.shopId,
-                            item.id
-                          )
-                        }
-                        className="px-2 py-1 text-sm font-bold"
-                      >
-                        +
-                      </button>
+                          −
 
-                    </div>
+                        </button>
 
-                  )}
+                        {/* QTY */}
+                        <span className="px-2 text-xs font-semibold">
+
+                          {qty}
+
+                        </span>
+
+                        {/* PLUS */}
+                        <button
+                          onClick={() =>
+                            increaseQty(
+                              item.shopId,
+                              item.id
+                            )
+                          }
+                          className="px-2 py-1 text-sm font-bold"
+                        >
+
+                          +
+
+                        </button>
+
+                      </div>
+
+                    )}
+
+                  </div>
 
                 </div>
 
-              </div>
+              );
 
-            );
-
-          })}
+            }
+          )}
 
         </div>
 

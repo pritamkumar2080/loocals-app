@@ -14,7 +14,7 @@ import { useCart } from "../context/CartContext";
 
 const SaleSection = () => {
 
-  // FIREBASE PRODUCTS
+  // PRODUCTS
   const [products, setProducts] =
     useState([]);
 
@@ -32,7 +32,32 @@ const SaleSection = () => {
 
       if (data) {
 
-        setProducts(data);
+        // OBJECT → ARRAY
+        const productArray =
+          Object.values(data);
+
+        // ✅ FIX IMAGE PATH
+        const fixedProducts =
+          productArray.map((item) => {
+
+            // FILE NAME
+            const fileName =
+              item.img
+                ?.split("/")
+                .pop();
+
+            return {
+
+              ...item,
+
+              // NEW IMAGE PATH
+              img: `/images/${fileName}`,
+
+            };
+
+          });
+
+        setProducts(fixedProducts);
 
       }
 
@@ -49,28 +74,41 @@ const SaleSection = () => {
   } = useCart();
 
   // SALE PRODUCTS
-  const saleProducts = products
-    .filter((item) => item.isOnSale)
-    .slice(0, 6);
+  const saleProducts =
+    products
+      .filter(
+        (item) =>
+          item.isOnSale
+      )
+      .slice(0, 6);
 
   // GET ITEM QTY
   const getQty = (itemId) => {
 
     let qty = 0;
 
-    Object.values(cart).forEach((shopItems) => {
+    Object.values(cart).forEach(
+      (shopItems) => {
 
-      if (!Array.isArray(shopItems)) return;
+        if (
+          !Array.isArray(shopItems)
+        )
+          return;
 
-      const found = shopItems.find(
-        (i) => i.id === itemId
-      );
+        const found =
+          shopItems.find(
+            (i) =>
+              i.id === itemId
+          );
 
-      if (found) {
-        qty = found.qty;
+        if (found) {
+
+          qty = found.qty;
+
+        }
+
       }
-
-    });
+    );
 
     return qty;
 
@@ -84,7 +122,9 @@ const SaleSection = () => {
       <div className="absolute top-0 right-0 bg-yellow-300 px-3 py-1 rounded-bl-2xl">
 
         <p className="text-xs font-bold text-black">
+
           SALE
+
         </p>
 
       </div>
@@ -93,11 +133,15 @@ const SaleSection = () => {
       <div className="mb-4">
 
         <h2 className="text-xl font-bold text-white">
+
           Mega Deals 🔥
+
         </h2>
 
         <p className="text-sm text-red-100 mt-1">
+
           Extra discounts on selected items
+
         </p>
 
       </div>
@@ -105,119 +149,145 @@ const SaleSection = () => {
       {/* PRODUCTS */}
       <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
 
-        {saleProducts.map((item) => {
+        {saleProducts.map(
+          (item) => {
 
-          const qty = getQty(item.id);
+            const qty =
+              getQty(item.id);
 
-          // SALE PRICE
-          const salePrice =
-            item.price -
-            (item.price * item.discount) / 100;
+            // SALE PRICE
+            const salePrice =
+              item.price -
+              (item.price *
+                item.discount) /
+                100;
 
-          return (
+            return (
 
-            <div
-              key={item.id}
-              className="min-w-[140px] bg-white rounded-2xl p-2 flex-shrink-0"
-            >
+              <div
+                key={item.id}
+                className="min-w-[140px] bg-white rounded-2xl p-2 flex-shrink-0 shadow-sm"
+              >
 
-              {/* IMAGE */}
-              <img
-                src={item.img}
-                alt={item.name}
-                className="w-full h-28 object-cover rounded-xl"
-              />
+                {/* IMAGE */}
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-full h-28 object-cover rounded-xl"
+                />
 
-              {/* PRICE + BUTTON */}
-              <div className="mt-2 flex justify-between items-center">
+                {/* PRICE + BUTTON */}
+                <div className="mt-2 flex justify-between items-center">
 
-                <div>
+                  <div>
 
-                  {/* SALE PRICE */}
-                  <p className="text-red-500 font-bold text-sm">
-                    ₹{Math.floor(salePrice)}
-                  </p>
+                    {/* SALE PRICE */}
+                    <p className="text-red-500 font-bold text-sm">
 
-                  {/* OLD PRICE */}
-                  <p className="text-[10px] text-gray-400 line-through">
-                    ₹{item.price}
-                  </p>
+                      ₹
+                      {Math.floor(
+                        salePrice
+                      )}
 
-                </div>
+                    </p>
 
-                {/* BUTTON */}
-                {qty === 0 ? (
+                    {/* OLD PRICE */}
+                    <p className="text-[10px] text-gray-400 line-through">
 
-                  <button
-                    onClick={() =>
-                      addToCart({
-                        ...item,
-                        price: Math.floor(salePrice),
-                      })
-                    }
-                    className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
-                  >
-                    ADD
-                  </button>
+                      ₹
+                      {item.price}
 
-                ) : (
-
-                  <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
-
-                    {/* MINUS */}
-                    <button
-                      onClick={() =>
-                        decreaseQty(
-                          item.shopId,
-                          item.id
-                        )
-                      }
-                      className="px-2 py-1 text-sm font-bold"
-                    >
-                      −
-                    </button>
-
-                    {/* QTY */}
-                    <span className="px-2 text-xs font-semibold">
-                      {qty}
-                    </span>
-
-                    {/* PLUS */}
-                    <button
-                      onClick={() =>
-                        increaseQty(
-                          item.shopId,
-                          item.id
-                        )
-                      }
-                      className="px-2 py-1 text-sm font-bold"
-                    >
-                      +
-                    </button>
+                    </p>
 
                   </div>
 
-                )}
+                  {/* BUTTON */}
+                  {qty === 0 ? (
+
+                    <button
+                      onClick={() =>
+                        addToCart({
+                          ...item,
+                          price:
+                            Math.floor(
+                              salePrice
+                            ),
+                        })
+                      }
+                      className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
+                    >
+
+                      ADD
+
+                    </button>
+
+                  ) : (
+
+                    <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
+
+                      {/* MINUS */}
+                      <button
+                        onClick={() =>
+                          decreaseQty(
+                            item.shopId,
+                            item.id
+                          )
+                        }
+                        className="px-2 py-1 text-sm font-bold"
+                      >
+
+                        −
+
+                      </button>
+
+                      {/* QTY */}
+                      <span className="px-2 text-xs font-semibold">
+
+                        {qty}
+
+                      </span>
+
+                      {/* PLUS */}
+                      <button
+                        onClick={() =>
+                          increaseQty(
+                            item.shopId,
+                            item.id
+                          )
+                        }
+                        className="px-2 py-1 text-sm font-bold"
+                      >
+
+                        +
+
+                      </button>
+
+                    </div>
+
+                  )}
+
+                </div>
+
+                {/* NAME */}
+                <p className="text-[11px] mt-2 line-clamp-2 font-medium text-gray-700">
+
+                  {item.name}
+
+                </p>
+
+                {/* DISCOUNT */}
+                <div className="mt-2 bg-red-100 text-red-500 text-[10px] font-bold px-2 py-1 rounded-lg text-center">
+
+                  {item.discount}% OFF
+
+                </div>
 
               </div>
 
-              {/* NAME */}
-              <p className="text-[11px] mt-2 line-clamp-2">
-                {item.name}
-              </p>
+            );
 
-              {/* DISCOUNT */}
-              <div className="mt-2 bg-red-100 text-red-500 text-[10px] font-bold px-2 py-1 rounded-lg text-center">
-
-                {item.discount}% OFF
-
-              </div>
-
-            </div>
-
-          );
-
-        })}
+          }
+        )}
 
       </div>
 

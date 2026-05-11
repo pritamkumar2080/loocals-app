@@ -1,5 +1,4 @@
 import React, {
-  useMemo,
   useEffect,
   useState,
 } from "react";
@@ -12,11 +11,14 @@ import {
 import { db } from "../firebase";
 
 import { useCart } from "../context/CartContext";
+
 import { useWishlist } from "../context/WishlistContext";
+
 import { Heart } from "lucide-react";
 
 const RandomProducts = () => {
 
+  // PRODUCTS
   const [products, setProducts] =
     useState([]);
 
@@ -33,7 +35,7 @@ const RandomProducts = () => {
     isInWishlist,
   } = useWishlist();
 
-  // ✅ FETCH PRODUCTS FROM FIREBASE
+  // ✅ FETCH PRODUCTS
   useEffect(() => {
 
     const productsRef = ref(
@@ -47,7 +49,32 @@ const RandomProducts = () => {
 
       if (data) {
 
-        setProducts(data);
+        // OBJECT → ARRAY
+        const productArray =
+          Object.values(data);
+
+        // ✅ FIX IMAGE PATH
+        const fixedProducts =
+          productArray.map((item) => {
+
+            // FILE NAME
+            const fileName =
+              item.img
+                ?.split("/")
+                .pop();
+
+            return {
+
+              ...item,
+
+              // NEW IMAGE PATH
+              img: `/images/${fileName}`,
+
+            };
+
+          });
+
+        setProducts(fixedProducts);
 
       }
 
@@ -55,32 +82,42 @@ const RandomProducts = () => {
 
   }, []);
 
-  // ✅ RANDOM ONLY ONCE
-
-  const randomProducts = [...products]
-  .sort(() => 0.5 - Math.random())
-  .slice(0, 60);
-
-
+  // ✅ RANDOM PRODUCTS
+  const randomProducts =
+    [...products]
+      .sort(
+        () =>
+          0.5 - Math.random()
+      )
+      .slice(0, 60);
 
   // ✅ GET ITEM QTY
   const getQty = (itemId) => {
 
     let qty = 0;
 
-    Object.values(cart).forEach((shopItems) => {
+    Object.values(cart).forEach(
+      (shopItems) => {
 
-      if (!Array.isArray(shopItems)) return;
+        if (
+          !Array.isArray(shopItems)
+        )
+          return;
 
-      const found = shopItems.find(
-        (i) => i.id === itemId
-      );
+        const found =
+          shopItems.find(
+            (i) =>
+              i.id === itemId
+          );
 
-      if (found) {
-        qty = found.qty;
+        if (found) {
+
+          qty = found.qty;
+
+        }
+
       }
-
-    });
+    );
 
     return qty;
 
@@ -94,7 +131,9 @@ const RandomProducts = () => {
       <div className="flex justify-between items-center mb-2">
 
         <h2 className="text-sm font-semibold">
+
           Popular Products
+
         </h2>
 
       </div>
@@ -102,117 +141,143 @@ const RandomProducts = () => {
       {/* GRID */}
       <div className="grid grid-cols-3 gap-3">
 
-        {randomProducts.map((item) => {
+        {randomProducts.map(
+          (item) => {
 
-          const qty = getQty(item.id);
+            const qty =
+              getQty(item.id);
 
-          const liked = isInWishlist(item.id);
+            const liked =
+              isInWishlist(
+                item.id
+              );
 
-          return (
+            return (
 
-            <div
-              key={item.id}
-              className="bg-white p-2 rounded-lg shadow-sm relative overflow-hidden"
-            >
-
-              {/* ❤️ WISHLIST */}
-              <button
-                onClick={() =>
-
-                  liked
-                    ? removeFromWishlist(item.id)
-                    : addToWishlist(item)
-
-                }
-                className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-sm"
+              <div
+                key={item.id}
+                className="bg-white p-2 rounded-lg shadow-sm relative overflow-hidden"
               >
 
-                <Heart
-                  size={16}
-                  className={
+                {/* ❤️ WISHLIST */}
+                <button
+                  onClick={() =>
+
                     liked
-                      ? "fill-red-500 text-red-500"
-                      : "text-gray-400"
+                      ? removeFromWishlist(
+                          item.id
+                        )
+                      : addToWishlist(
+                          item
+                        )
+
                   }
+                  className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-sm"
+                >
+
+                  <Heart
+                    size={16}
+                    className={
+                      liked
+                        ? "fill-red-500 text-red-500"
+                        : "text-gray-400"
+                    }
+                  />
+
+                </button>
+
+                {/* IMAGE */}
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-full h-24 object-cover rounded"
                 />
 
-              </button>
+                {/* NAME */}
+                <p className="text-xs mt-1 line-clamp-1">
 
-              {/* IMAGE */}
-              <img
-                src={item.img}
-                alt={item.name}
-                className="w-full h-24 object-cover rounded"
-              />
+                  {item.name}
 
-              {/* NAME */}
-              <p className="text-xs mt-1 line-clamp-1">
-                {item.name}
-              </p>
-
-              {/* PRICE + BUTTON */}
-              <div className="flex justify-between items-center mt-2">
-
-                <p className="text-sm font-bold">
-                  ₹{item.price}
                 </p>
 
-                {/* ADD BUTTON */}
-                {qty === 0 ? (
+                {/* PRICE + BUTTON */}
+                <div className="flex justify-between items-center mt-2">
 
-                  <button
-                    onClick={() => addToCart(item)}
-                    className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
-                  >
-                    ADD
-                  </button>
+                  <p className="text-sm font-bold">
 
-                ) : (
+                    ₹{item.price}
 
-                  <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
+                  </p>
 
-                    {/* MINUS */}
+                  {/* BUTTON */}
+                  {qty === 0 ? (
+
                     <button
                       onClick={() =>
-                        decreaseQty(
-                          item.shopId,
-                          item.id
+                        addToCart(
+                          item
                         )
                       }
-                      className="px-2 py-1 text-sm font-bold"
+                      className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
                     >
-                      −
+
+                      ADD
+
                     </button>
 
-                    {/* QTY */}
-                    <span className="px-2 text-xs font-semibold">
-                      {qty}
-                    </span>
+                  ) : (
 
-                    {/* PLUS */}
-                    <button
-                      onClick={() =>
-                        increaseQty(
-                          item.shopId,
-                          item.id
-                        )
-                      }
-                      className="px-2 py-1 text-sm font-bold"
-                    >
-                      +
-                    </button>
+                    <div className="flex items-center bg-green-600 text-white rounded-lg overflow-hidden">
 
-                  </div>
+                      {/* MINUS */}
+                      <button
+                        onClick={() =>
+                          decreaseQty(
+                            item.shopId,
+                            item.id
+                          )
+                        }
+                        className="px-2 py-1 text-sm font-bold"
+                      >
 
-                )}
+                        −
+
+                      </button>
+
+                      {/* QTY */}
+                      <span className="px-2 text-xs font-semibold">
+
+                        {qty}
+
+                      </span>
+
+                      {/* PLUS */}
+                      <button
+                        onClick={() =>
+                          increaseQty(
+                            item.shopId,
+                            item.id
+                          )
+                        }
+                        className="px-2 py-1 text-sm font-bold"
+                      >
+
+                        +
+
+                      </button>
+
+                    </div>
+
+                  )}
+
+                </div>
 
               </div>
 
-            </div>
+            );
 
-          );
-
-        })}
+          }
+        )}
 
       </div>
 

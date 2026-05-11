@@ -1,84 +1,154 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-// 🔥 IMPORT IMAGES
-import fruitImg from "../assets/banana.avif";
-import vegImg from "../assets/cabbage.avif";
-import dairyImg from "../assets/milk.avif";
-import snackImg from "../assets/lays.avif";
-import beverageImg from "../assets/bread.avif";
-import groceryImg from "../assets/detergent.avif";
-import careImg from "../assets/shampoo.avif";
-import stationaryImg from "../assets/notebook.avif";
-
-// 🔥 CATEGORY DATA (UPDATED)
+// ✅ CATEGORY DATA
 const categories = [
-  { name: "Fruits", img: fruitImg },
-  { name: "Vegetables", img: vegImg },
-  { name: "Dairy", img: dairyImg },
-  { name: "Snacks", img: snackImg },
-  { name: "Beverages", img: beverageImg },
-  { name: "Grocery", img: groceryImg },
-  { name: "Personal Care", img: careImg },
-  { name: "Stationery", img: stationaryImg },
+  {
+    name: "Fruits",
+    img: "/images/banana.avif",
+  },
+
+  {
+    name: "Vegetables",
+    img: "/images/cabbage.avif",
+  },
+
+  {
+    name: "Dairy",
+    img: "/images/milk.avif",
+  },
+
+  {
+    name: "Snacks",
+    img: "/images/lays.avif",
+  },
+
+  {
+    name: "Beverages",
+    img: "/images/bread.avif",
+  },
+
+  {
+    name: "Grocery",
+    img: "/images/detergent.avif",
+  },
+
+  {
+    name: "Personal Care",
+    img: "/images/shampoo.avif",
+  },
+
+  {
+    name: "Stationery",
+    img: "/images/notebook.avif",
+  },
 ];
 
 const Categories = ({ limit }) => {
+
   const navigate = useNavigate();
 
-  const data = limit ? categories : categories;
+  const data = limit
+    ? categories
+    : categories;
 
   return (
+
     <div className="mt-4">
 
       {/* HEADER */}
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-sm font-bold">Categories</h2>
+
+        <h2 className="text-sm font-bold">
+
+          Categories
+
+        </h2>
+
       </div>
 
-      {/* 🔥 CONDITIONAL UI */}
+      {/* HOME SCROLL */}
       {limit ? (
-        // 👉 HOME (SCROLL)
+
         <div className="flex gap-3 overflow-x-auto scrollbar-none pb-1">
+
           {data.map((cat, index) => (
+
             <div
               key={index}
               onClick={() =>
-                navigate(`/category/${encodeURIComponent(cat.name)}`)
+                navigate(
+                  `/category/${encodeURIComponent(
+                    cat.name
+                  )}`
+                )
               }
-              className="min-w-[80px] bg-white p-3 rounded-xl shadow text-center cursor-pointer active:scale-95"
+              className="min-w-[80px] bg-white p-3 rounded-2xl shadow-sm text-center cursor-pointer active:scale-95 hover:shadow-md transition duration-200"
             >
+
+              {/* IMAGE */}
               <img
                 src={cat.img}
                 alt={cat.name}
-                className="w-10 h-10 mx-auto mb-2 object-contain"
+                className="w-12 h-12 mx-auto mb-2 object-contain"
               />
-              <p className="text-[11px]">{cat.name}</p>
+
+              {/* NAME */}
+              <p className="text-[11px] text-gray-700 font-medium">
+
+                {cat.name}
+
+              </p>
+
             </div>
+
           ))}
+
         </div>
+
       ) : (
-        // 👉 FULL PAGE (GRID)
+
+        /* FULL PAGE GRID */
         <div className="grid grid-cols-4 gap-3">
+
           {data.map((cat, index) => (
+
             <div
               key={index}
               onClick={() =>
-                navigate(`/category/${encodeURIComponent(cat.name)}`)
+                navigate(
+                  `/category/${encodeURIComponent(
+                    cat.name
+                  )}`
+                )
               }
-              className="bg-white p-3 rounded-xl shadow text-center cursor-pointer active:scale-95"
+              className="bg-white p-3 rounded-2xl shadow-sm text-center cursor-pointer active:scale-95 hover:shadow-md transition duration-200"
             >
+
+              {/* IMAGE */}
               <img
                 src={cat.img}
                 alt={cat.name}
-                className="w-10 h-10 mx-auto mb-2 object-contain"
+                className="w-12 h-12 mx-auto mb-2 object-contain"
               />
-              <p className="text-[11px]">{cat.name}</p>
+
+              {/* NAME */}
+              <p className="text-[11px] text-gray-700 font-medium">
+
+                {cat.name}
+
+              </p>
+
             </div>
+
           ))}
+
         </div>
+
       )}
+
     </div>
+
   );
 };
 
