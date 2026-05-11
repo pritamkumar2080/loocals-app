@@ -1,17 +1,26 @@
 import BackHeader from "../components/BackHeader";
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../data/products";
 import { shops } from "../data/shops";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { Heart } from "lucide-react";
+import SearchBar from "../components/SearchBar";
 
 const ShopDetail = () => {
 
   const { id } = useParams();
 
   const shopId = Number(id);
+
+  // SEARCH STATE
+  const [search, setSearch] =
+    useState("");
+
+  // ACTIVE IMAGE
+  const [activeImage, setActiveImage] =
+    useState(0);
 
   const {
     cart,
@@ -30,9 +39,16 @@ const ShopDetail = () => {
     (s) => Number(s.id) === shopId
   );
 
-  const shopProducts = products.filter(
-    (p) => Number(p.shopId) === shopId
-  );
+  // FILTER PRODUCTS
+  const shopProducts = products
+    .filter(
+      (p) => Number(p.shopId) === shopId
+    )
+    .filter((item) =>
+      item.name
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
 
   // GET ITEM QTY
   const getQty = (itemId) => {
@@ -67,12 +83,58 @@ const ShopDetail = () => {
 
       <BackHeader title="" />
 
-      {/* SHOP IMAGE */}
-      <img
-        src={shop.img}
-        alt={shop.title}
-        className="w-full h-40 object-cover rounded-2xl mb-3"
-      />
+      {/* SHOP IMAGE SLIDER */}
+      <div
+        onScroll={(e) => {
+
+          const scrollLeft =
+            e.target.scrollLeft;
+
+          const width =
+            e.target.clientWidth;
+
+          const index = Math.round(
+            scrollLeft / width
+          );
+
+          setActiveImage(index);
+
+        }}
+        className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide mb-3"
+      >
+
+        {shop.images.map(
+          (img, index) => (
+
+            <img
+              key={index}
+              src={img}
+              alt="shop"
+              className="w-full min-w-full h-40 object-cover rounded-2xl snap-center"
+            />
+
+          )
+        )}
+
+      </div>
+
+      {/* DOTS */}
+      <div className="flex justify-center gap-2 mb-4">
+
+        {shop.images.map((_, index) => (
+
+          <div
+            key={index}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              activeImage === index
+                ? "w-5 bg-green-600"
+                : "w-2 bg-gray-300"
+            }`}
+          />
+
+        ))}
+
+      </div>
 
       {/* SHOP TITLE */}
       <h2 className="text-xl font-bold">
@@ -84,12 +146,27 @@ const ShopDetail = () => {
         ⭐ {shop.rating} • ⏱ {shop.time}
       </p>
 
+      {/* SEARCH BAR */}
+      <div className="mb-4">
+
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+          placeholder={`Search in ${shop.title}`}
+        />
+
+      </div>
+
       {/* PRODUCTS */}
       {shopProducts.length === 0 ? (
 
-        <p className="text-gray-500">
-          No products found
-        </p>
+        <div className="bg-white rounded-3xl p-8 text-center">
+
+          <p className="text-gray-500">
+            No products found
+          </p>
+
+        </div>
 
       ) : (
 
@@ -99,7 +176,8 @@ const ShopDetail = () => {
 
             const qty = getQty(item.id);
 
-            const liked = isInWishlist(item.id);
+            const liked =
+              isInWishlist(item.id);
 
             return (
 
@@ -113,8 +191,12 @@ const ShopDetail = () => {
                   onClick={() =>
 
                     liked
-                      ? removeFromWishlist(item.id)
-                      : addToWishlist(item)
+                      ? removeFromWishlist(
+                          item.id
+                        )
+                      : addToWishlist(
+                          item
+                        )
 
                   }
                   className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-sm"
@@ -131,7 +213,7 @@ const ShopDetail = () => {
 
                 </button>
 
-                {/* IMAGE */}
+                {/* PRODUCT IMAGE */}
                 <img
                   src={item.img}
                   alt={item.name}
@@ -150,11 +232,13 @@ const ShopDetail = () => {
                     ₹{item.price}
                   </p>
 
-                  {/* BLINKIT STYLE BUTTON */}
+                  {/* ADD BUTTON */}
                   {qty === 0 ? (
 
                     <button
-                      onClick={() => addToCart(item)}
+                      onClick={() =>
+                        addToCart(item)
+                      }
                       className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
                     >
                       ADD
