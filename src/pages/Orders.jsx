@@ -1,5 +1,7 @@
 import BackHeader from "../components/BackHeader";
+
 import React from "react";
+
 import { useOrder } from "../context/OrderContext";
 
 import {
@@ -14,11 +16,16 @@ import {
 
 const Orders = () => {
 
-  const { orders, clearOrders } = useOrder();
+  const {
+    orders,
+    clearOrders,
+  } = useOrder();
 
   // TRACKING STEPS
   const getStatusIndex = (id) => {
+
     return id % 4;
+
   };
 
   return (
@@ -49,12 +56,16 @@ const Orders = () => {
             </div>
 
             <h2 className="text-xl font-bold mt-5">
+
               No Orders Yet
+
             </h2>
 
             <p className="text-gray-500 text-sm mt-2">
+
               Start shopping and your orders
               will appear here
+
             </p>
 
           </div>
@@ -81,11 +92,15 @@ const Orders = () => {
                     <div>
 
                       <p className="text-xs text-gray-400">
+
                         ORDER ID
+
                       </p>
 
                       <h2 className="font-bold text-sm">
+
                         #LOC{order.id}
+
                       </h2>
 
                     </div>
@@ -93,11 +108,15 @@ const Orders = () => {
                     <div className="text-right">
 
                       <p className="text-xs text-gray-400">
+
                         ORDER DATE
+
                       </p>
 
                       <p className="text-sm font-medium">
+
                         {order.date}
+
                       </p>
 
                     </div>
@@ -125,7 +144,9 @@ const Orders = () => {
                         </div>
 
                         <p className="text-[10px] mt-2 text-center">
+
                           Ordered
+
                         </p>
 
                       </div>
@@ -148,7 +169,9 @@ const Orders = () => {
                         </div>
 
                         <p className="text-[10px] mt-2 text-center">
+
                           Packed
+
                         </p>
 
                       </div>
@@ -171,7 +194,9 @@ const Orders = () => {
                         </div>
 
                         <p className="text-[10px] mt-2 text-center">
+
                           On Way
+
                         </p>
 
                       </div>
@@ -194,7 +219,9 @@ const Orders = () => {
                         </div>
 
                         <p className="text-[10px] mt-2 text-center">
+
                           Delivered
+
                         </p>
 
                       </div>
@@ -214,13 +241,17 @@ const Orders = () => {
                       />
 
                       <p className="text-sm font-medium">
+
                         {order.method}
+
                       </p>
 
                     </div>
 
                     <span className="bg-green-600 text-white px-3 py-1 rounded-full text-[10px] font-semibold">
+
                       PAID
+
                     </span>
 
                   </div>
@@ -240,17 +271,23 @@ const Orders = () => {
                         <div>
 
                           <p className="font-semibold text-sm">
+
                             {order.address.saveAs || "Home"}
+
                           </p>
 
                           <p className="text-sm text-gray-600 mt-1">
+
                             {order.address.fullAddress}
+
                           </p>
 
                           <p className="text-xs text-gray-400 mt-1">
+
                             {order.address.area},
                             {" "}
                             {order.address.city}
+
                           </p>
 
                         </div>
@@ -265,7 +302,9 @@ const Orders = () => {
                   <div>
 
                     <h3 className="font-bold mb-3">
+
                       Items
+
                     </h3>
 
                     {Array.isArray(order.items) &&
@@ -278,28 +317,43 @@ const Orders = () => {
 
                           <div className="flex items-center gap-3">
 
+                            {/* IMAGE */}
                             <img
-                              src={item.img}
+                              src={
+                                item.img
+                                  ? `/images/${item.img
+                                      .split("/")
+                                      .pop()}`
+                                  : "/images/default.png"
+                              }
                               alt={item.name}
                               className="w-14 h-14 rounded-xl object-cover"
                             />
 
+                            {/* INFO */}
                             <div>
 
                               <p className="text-sm font-medium line-clamp-1">
+
                                 {item.name}
+
                               </p>
 
                               <p className="text-xs text-gray-400 mt-1">
+
                                 Qty : {item.qty}
+
                               </p>
 
                             </div>
 
                           </div>
 
+                          {/* PRICE */}
                           <p className="font-bold text-sm">
+
                             ₹{item.price * item.qty}
+
                           </p>
 
                         </div>
@@ -313,11 +367,15 @@ const Orders = () => {
                       <div className="flex justify-between">
 
                         <p className="text-sm text-gray-500">
+
                           Subtotal
+
                         </p>
 
                         <p className="font-semibold">
+
                           ₹{order.subtotal || 0}
+
                         </p>
 
                       </div>
@@ -328,11 +386,15 @@ const Orders = () => {
                         <div className="flex justify-between text-green-600">
 
                           <p className="text-sm">
+
                             Coupon Discount
+
                           </p>
 
                           <p className="font-semibold">
+
                             - ₹{order.discount}
+
                           </p>
 
                         </div>
@@ -345,11 +407,15 @@ const Orders = () => {
                         <div className="flex justify-between">
 
                           <p className="text-sm text-gray-500">
+
                             Coupon Code
+
                           </p>
 
                           <p className="font-semibold">
+
                             {order.coupon}
+
                           </p>
 
                         </div>
@@ -360,11 +426,15 @@ const Orders = () => {
                       <div className="flex justify-between items-center pt-3 border-t border-gray-200">
 
                         <p className="text-sm font-semibold text-gray-500">
+
                           Final Amount
+
                         </p>
 
                         <p className="text-xl font-bold text-green-700">
+
                           ₹{order.finalTotal || 0}
+
                         </p>
 
                       </div>
