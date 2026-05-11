@@ -5,7 +5,7 @@ import { products } from "../data/products";
 import { shops } from "../data/shops";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { Heart } from "lucide-react";
+import { Heart, Search } from "lucide-react";
 import SearchBar from "../components/SearchBar";
 
 const ShopDetail = () => {
@@ -17,10 +17,6 @@ const ShopDetail = () => {
   // SEARCH STATE
   const [search, setSearch] =
     useState("");
-
-  // ACTIVE IMAGE
-  const [activeImage, setActiveImage] =
-    useState(0);
 
   const {
     cart,
@@ -83,58 +79,12 @@ const ShopDetail = () => {
 
       <BackHeader title="" />
 
-      {/* SHOP IMAGE SLIDER */}
-      <div
-        onScroll={(e) => {
-
-          const scrollLeft =
-            e.target.scrollLeft;
-
-          const width =
-            e.target.clientWidth;
-
-          const index = Math.round(
-            scrollLeft / width
-          );
-
-          setActiveImage(index);
-
-        }}
-        className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide mb-3"
-      >
-
-        {shop.images.map(
-          (img, index) => (
-
-            <img
-              key={index}
-              src={img}
-              alt="shop"
-              className="w-full min-w-full h-40 object-cover rounded-2xl snap-center"
-            />
-
-          )
-        )}
-
-      </div>
-
-      {/* DOTS */}
-      <div className="flex justify-center gap-2 mb-4">
-
-        {shop.images.map((_, index) => (
-
-          <div
-            key={index}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              activeImage === index
-                ? "w-5 bg-green-600"
-                : "w-2 bg-gray-300"
-            }`}
-          />
-
-        ))}
-
-      </div>
+      {/* SHOP IMAGE */}
+      <img
+        src={shop.img}
+        alt={shop.title}
+        className="w-full h-40 object-cover rounded-2xl mb-3"
+      />
 
       {/* SHOP TITLE */}
       <h2 className="text-xl font-bold">
@@ -213,7 +163,7 @@ const ShopDetail = () => {
 
                 </button>
 
-                {/* PRODUCT IMAGE */}
+                {/* IMAGE */}
                 <img
                   src={item.img}
                   alt={item.name}
