@@ -1,28 +1,30 @@
 export const coupons = [
+
   {
     id: 1,
-    code: "ONECARD30",
-    title: "Flat ₹30 OFF",
-    desc: "Use code ONECARD30",
-    discount: 30,
+    title: "50% OFF 🎉",
+    desc: "Get 50% off on fresh fruits",
+    code: "SAVE20",
+    discount: 20,
     minAmount: 199,
   },
 
   {
     id: 2,
-    code: "DIGISMART",
-    title: "Get 10% OFF upto ₹200",
-    desc: "Use code DIGISMART",
-    discount: 200,
-    minAmount: 299,
+    title: "Free Delivery 🚚",
+    desc: "On orders above ₹199",
+    code: "FREEDEL",
+    discount: 40,
+    minAmount: 199,
   },
 
   {
     id: 3,
-    code: "NAVI25",
-    title: "Flat ₹25 OFF",
-    desc: "Use code NAVI25",
-    discount: 25,
-    minAmount: 399,
+    title: "₹100 OFF 💸",
+    desc: "On first order",
+    code: "WELCOME100",
+    discount: 100,
+    minAmount: 499,
   },
+
 ];

@@ -16,15 +16,7 @@ const Orders = () => {
 
   const { orders, clearOrders } = useOrder();
 
-  // 🔥 FAKE TRACKING
-  const steps = [
-    "placed",
-    "packed",
-    "out",
-    "delivered",
-  ];
-
-  // RANDOM STATUS
+  // TRACKING STEPS
   const getStatusIndex = (id) => {
     return id % 4;
   };
@@ -314,31 +306,68 @@ const Orders = () => {
 
                       ))}
 
-                    {/* TOTAL */}
-                    <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
+                    {/* PRICE DETAILS */}
+                    <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
 
-                      <p className="text-sm font-semibold text-gray-500">
-                        Total Amount
-                      </p>
+                      {/* SUBTOTAL */}
+                      <div className="flex justify-between">
 
-                      <p className="text-xl font-bold text-green-700">
+                        <p className="text-sm text-gray-500">
+                          Subtotal
+                        </p>
 
-                        ₹{
+                        <p className="font-semibold">
+                          ₹{order.subtotal || 0}
+                        </p>
 
-                          Array.isArray(order.items)
+                      </div>
 
-                            ? order.items.reduce(
-                                (sum, item) =>
-                                  sum +
-                                  item.price * item.qty,
-                                0
-                              )
+                      {/* DISCOUNT */}
+                      {order.discount > 0 && (
 
-                            : 0
+                        <div className="flex justify-between text-green-600">
 
-                        }
+                          <p className="text-sm">
+                            Coupon Discount
+                          </p>
 
-                      </p>
+                          <p className="font-semibold">
+                            - ₹{order.discount}
+                          </p>
+
+                        </div>
+
+                      )}
+
+                      {/* COUPON */}
+                      {order.coupon && (
+
+                        <div className="flex justify-between">
+
+                          <p className="text-sm text-gray-500">
+                            Coupon Code
+                          </p>
+
+                          <p className="font-semibold">
+                            {order.coupon}
+                          </p>
+
+                        </div>
+
+                      )}
+
+                      {/* FINAL TOTAL */}
+                      <div className="flex justify-between items-center pt-3 border-t border-gray-200">
+
+                        <p className="text-sm font-semibold text-gray-500">
+                          Final Amount
+                        </p>
+
+                        <p className="text-xl font-bold text-green-700">
+                          ₹{order.finalTotal || 0}
+                        </p>
+
+                      </div>
 
                     </div>
 

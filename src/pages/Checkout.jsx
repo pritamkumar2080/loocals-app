@@ -45,6 +45,12 @@ const Checkout = () => {
     0
   );
 
+  // ✅ SAVE TOTAL FOR COUPON PAGE
+  localStorage.setItem(
+    "cartTotal",
+    total
+  );
+
   // DELIVERY FEE
   const deliveryFee = 20;
 
