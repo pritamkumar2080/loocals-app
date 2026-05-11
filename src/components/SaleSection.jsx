@@ -1,8 +1,44 @@
-import React, { useMemo } from "react";
-import { products } from "../data/products";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  ref,
+  onValue,
+} from "firebase/database";
+
+import { db } from "../firebase";
+
 import { useCart } from "../context/CartContext";
 
 const SaleSection = () => {
+
+  // FIREBASE PRODUCTS
+  const [products, setProducts] =
+    useState([]);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+
+    const productsRef = ref(
+      db,
+      "products"
+    );
+
+    onValue(productsRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (data) {
+
+        setProducts(data);
+
+      }
+
+    });
+
+  }, []);
 
   // CART
   const {
@@ -12,14 +48,10 @@ const SaleSection = () => {
     decreaseQty,
   } = useCart();
 
-  // ONLY SALE PRODUCTS
-  const saleProducts = useMemo(() => {
-
-    return products
-      .filter((item) => item.isOnSale)
-      .slice(0, 6);
-
-  }, []);
+  // SALE PRODUCTS
+  const saleProducts = products
+    .filter((item) => item.isOnSale)
+    .slice(0, 6);
 
   // GET ITEM QTY
   const getQty = (itemId) => {
@@ -70,14 +102,14 @@ const SaleSection = () => {
 
       </div>
 
-      {/* SCROLLABLE PRODUCTS */}
+      {/* PRODUCTS */}
       <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
 
         {saleProducts.map((item) => {
 
           const qty = getQty(item.id);
 
-          // DYNAMIC SALE PRICE
+          // SALE PRICE
           const salePrice =
             item.price -
             (item.price * item.discount) / 100;
@@ -113,7 +145,7 @@ const SaleSection = () => {
 
                 </div>
 
-                {/* BLINKIT STYLE BUTTON */}
+                {/* BUTTON */}
                 {qty === 0 ? (
 
                   <button
@@ -174,7 +206,7 @@ const SaleSection = () => {
                 {item.name}
               </p>
 
-              {/* DISCOUNT TAG */}
+              {/* DISCOUNT */}
               <div className="mt-2 bg-red-100 text-red-500 text-[10px] font-bold px-2 py-1 rounded-lg text-center">
 
                 {item.discount}% OFF
@@ -192,6 +224,7 @@ const SaleSection = () => {
     </div>
 
   );
+
 };
 
 export default SaleSection;

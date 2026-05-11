@@ -1,11 +1,25 @@
 import BackHeader from "../components/BackHeader";
-import React, { useState } from "react";
+import React, {
+  useState,
+  useEffect,
+} from "react";
+
 import { useParams } from "react-router-dom";
-import { products } from "../data/products";
+
+import {
+  ref,
+  onValue,
+} from "firebase/database";
+
+import { db } from "../firebase";
+
 import { shops } from "../data/shops";
+
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { Heart, Search } from "lucide-react";
+
+import { Heart } from "lucide-react";
+
 import SearchBar from "../components/SearchBar";
 
 const ShopDetail = () => {
@@ -14,9 +28,35 @@ const ShopDetail = () => {
 
   const shopId = Number(id);
 
-  // SEARCH STATE
+  // SEARCH
   const [search, setSearch] =
     useState("");
+
+  // FIREBASE PRODUCTS
+  const [products, setProducts] =
+    useState([]);
+
+  // FETCH PRODUCTS FROM FIREBASE
+  useEffect(() => {
+
+    const productsRef = ref(
+      db,
+      "products"
+    );
+
+    onValue(productsRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (data) {
+
+        setProducts(data);
+
+      }
+
+    });
+
+  }, []);
 
   const {
     cart,
@@ -96,7 +136,7 @@ const ShopDetail = () => {
         ⭐ {shop.rating} • ⏱ {shop.time}
       </p>
 
-      {/* SEARCH BAR */}
+      {/* SEARCH */}
       <div className="mb-4">
 
         <SearchBar
@@ -248,6 +288,7 @@ const ShopDetail = () => {
     </div>
 
   );
+
 };
 
 export default ShopDetail;

@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  useEffect,
+} from "react";
+
 import {
   useParams,
   useNavigate,
 } from "react-router-dom";
 
-import { products } from "../data/products";
+import {
+  ref,
+  onValue,
+} from "firebase/database";
+
+import { db } from "../firebase";
+
 import { shops } from "../data/shops";
+
 import { useCart } from "../context/CartContext";
 
 import { ArrowLeft } from "lucide-react";
@@ -18,9 +29,35 @@ const CategoryPage = () => {
 
   const navigate = useNavigate();
 
-  // SEARCH STATE
+  // FIREBASE PRODUCTS
+  const [products, setProducts] =
+    useState([]);
+
+  // SEARCH
   const [search, setSearch] =
     useState("");
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+
+    const productsRef = ref(
+      db,
+      "products"
+    );
+
+    onValue(productsRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (data) {
+
+        setProducts(data);
+
+      }
+
+    });
+
+  }, []);
 
   const {
     cart,
@@ -146,7 +183,7 @@ const CategoryPage = () => {
 
       </div>
 
-      {/* SEARCH BAR */}
+      {/* SEARCH */}
       <div className="mb-5">
 
         <SearchBar

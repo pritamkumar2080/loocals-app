@@ -1,10 +1,49 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
 import BackHeader from "../components/BackHeader";
+
+import {
+  ref,
+  onValue,
+} from "firebase/database";
+
+import { db } from "../firebase";
+
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
+
 import { Heart } from "lucide-react";
 
 const Wishlist = () => {
+
+  // FIREBASE PRODUCTS
+  const [products, setProducts] =
+    useState([]);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+
+    const productsRef = ref(
+      db,
+      "products"
+    );
+
+    onValue(productsRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (data) {
+
+        setProducts(data);
+
+      }
+
+    });
+
+  }, []);
 
   const {
     wishlist,
@@ -18,6 +57,20 @@ const Wishlist = () => {
     decreaseQty,
   } = useCart();
 
+  // REALTIME WISHLIST PRODUCTS
+  const updatedWishlist =
+    wishlist.map((wishItem) => {
+
+      const updated =
+        products.find(
+          (p) =>
+            p.id === wishItem.id
+        );
+
+      return updated || wishItem;
+
+    });
+
   // GET ITEM QTY
   const getQty = (itemId) => {
 
@@ -25,14 +78,17 @@ const Wishlist = () => {
 
     Object.values(cart).forEach((shopItems) => {
 
-      if (!Array.isArray(shopItems)) return;
+      if (!Array.isArray(shopItems))
+        return;
 
       const found = shopItems.find(
         (i) => i.id === itemId
       );
 
       if (found) {
+
         qty = found.qty;
+
       }
 
     });
@@ -48,7 +104,7 @@ const Wishlist = () => {
       <BackHeader title="Wishlist" />
 
       {/* EMPTY */}
-      {wishlist.length === 0 ? (
+      {updatedWishlist.length === 0 ? (
 
         <div className="flex flex-col items-center justify-center mt-20">
 
@@ -67,7 +123,7 @@ const Wishlist = () => {
 
         <div className="grid grid-cols-2 gap-3 mt-4">
 
-          {wishlist.map((item) => {
+          {updatedWishlist.map((item) => {
 
             const qty = getQty(item.id);
 
@@ -81,7 +137,9 @@ const Wishlist = () => {
                 {/* ❤️ REMOVE */}
                 <button
                   onClick={() =>
-                    removeFromWishlist(item.id)
+                    removeFromWishlist(
+                      item.id
+                    )
                   }
                   className="absolute top-2 right-2 z-10 bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-sm"
                 >
@@ -102,7 +160,9 @@ const Wishlist = () => {
 
                 {/* NAME */}
                 <p className="text-sm mt-2 font-medium line-clamp-1">
+
                   {item.name}
+
                 </p>
 
                 {/* PRICE + BUTTON */}
@@ -110,14 +170,18 @@ const Wishlist = () => {
 
                   {/* PRICE */}
                   <p className="text-sm font-bold">
+
                     ₹{item.price}
+
                   </p>
 
-                  {/* BLINKIT STYLE BUTTON */}
+                  {/* BUTTON */}
                   {qty === 0 ? (
 
                     <button
-                      onClick={() => addToCart(item)}
+                      onClick={() =>
+                        addToCart(item)
+                      }
                       className="border border-green-600 text-green-600 bg-green-50 text-[10px] font-semibold px-3 py-1 rounded-lg"
                     >
                       ADD
@@ -142,7 +206,9 @@ const Wishlist = () => {
 
                       {/* QTY */}
                       <span className="px-2 text-xs font-semibold">
+
                         {qty}
+
                       </span>
 
                       {/* PLUS */}

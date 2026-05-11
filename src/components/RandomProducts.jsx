@@ -1,10 +1,24 @@
-import React, { useMemo } from "react";
-import { products } from "../data/products";
+import React, {
+  useMemo,
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  ref,
+  onValue,
+} from "firebase/database";
+
+import { db } from "../firebase";
+
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { Heart } from "lucide-react";
 
 const RandomProducts = () => {
+
+  const [products, setProducts] =
+    useState([]);
 
   const {
     cart,
@@ -19,16 +33,37 @@ const RandomProducts = () => {
     isInWishlist,
   } = useWishlist();
 
-  // ✅ RANDOM ONLY ONCE
-  const randomProducts = useMemo(() => {
+  // ✅ FETCH PRODUCTS FROM FIREBASE
+  useEffect(() => {
 
-    return [...products]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 60);
+    const productsRef = ref(
+      db,
+      "products"
+    );
+
+    onValue(productsRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (data) {
+
+        setProducts(data);
+
+      }
+
+    });
 
   }, []);
 
-  // GET ITEM QTY
+  // ✅ RANDOM ONLY ONCE
+
+  const randomProducts = [...products]
+  .sort(() => 0.5 - Math.random())
+  .slice(0, 60);
+
+
+
+  // ✅ GET ITEM QTY
   const getQty = (itemId) => {
 
     let qty = 0;
@@ -122,7 +157,7 @@ const RandomProducts = () => {
                   ₹{item.price}
                 </p>
 
-                {/* BLINKIT STYLE BUTTON */}
+                {/* ADD BUTTON */}
                 {qty === 0 ? (
 
                   <button
@@ -184,6 +219,7 @@ const RandomProducts = () => {
     </div>
 
   );
+
 };
 
 export default RandomProducts;

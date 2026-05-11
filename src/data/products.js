@@ -340,7 +340,7 @@ export const products = [
 { id: 101, name: "Milk", price: 55, shopId: 2, img: img12, category: "Dairy" },
 { id: 102, name: "Milk", price: 60, shopId: 3, img: img12, category: "Dairy" },
 
-{ id: 102, name: "Lays", price: 22, shopId: 2, img: img11, category: "Snacks" },
+{ id: 103, name: "Lays", price: 22, shopId: 2, img: img11, category: "Snacks" },
 { id: 104, name: "Lays", price: 25, shopId: 3, img: img11, category: "Snacks" },
 
 { id: 105, name: "Rice", price: 85, shopId: 2, img: img18, category: "Grocery" },

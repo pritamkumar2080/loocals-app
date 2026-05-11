@@ -1,8 +1,20 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
 import { useNavigate } from "react-router-dom";
-import { products } from "../data/products";
+
+import {
+  ref,
+  onValue,
+} from "firebase/database";
+
+import { db } from "../firebase";
+
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
+
 import { Heart } from "lucide-react";
 
 const CategoryPreview = ({
@@ -12,6 +24,32 @@ const CategoryPreview = ({
 }) => {
 
   const navigate = useNavigate();
+
+  // FIREBASE PRODUCTS
+  const [products, setProducts] =
+    useState([]);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+
+    const productsRef = ref(
+      db,
+      "products"
+    );
+
+    onValue(productsRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (data) {
+
+        setProducts(data);
+
+      }
+
+    });
+
+  }, []);
 
   // CART
   const {
@@ -31,7 +69,8 @@ const CategoryPreview = ({
   // FILTER PRODUCTS
   const filteredProducts = products
     .filter(
-      (item) => item.category === category
+      (item) =>
+        item.category === category
     )
     .slice(0, 6);
 
@@ -88,7 +127,8 @@ const CategoryPreview = ({
 
           const qty = getQty(item.id);
 
-          const liked = isInWishlist(item.id);
+          const liked =
+            isInWishlist(item.id);
 
           return (
 
@@ -139,11 +179,13 @@ const CategoryPreview = ({
                   ₹{item.price}
                 </p>
 
-                {/* BLINKIT STYLE BUTTON */}
+                {/* ADD BUTTON */}
                 {qty === 0 ? (
 
                   <button
-                    onClick={() => addToCart(item)}
+                    onClick={() =>
+                      addToCart(item)
+                    }
                     className="border border-green-600 text-green-600 bg-green-50 text-xs font-semibold px-4 py-1 rounded-lg"
                   >
                     ADD
@@ -201,6 +243,7 @@ const CategoryPreview = ({
     </div>
 
   );
+
 };
 
 export default CategoryPreview;

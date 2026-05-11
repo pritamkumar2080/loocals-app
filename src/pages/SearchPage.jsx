@@ -1,119 +1,290 @@
 import BackHeader from "../components/BackHeader";
-import React, { useState, useRef } from "react";
-import { products } from "../data/products";
+
+import React, {
+  useState,
+  useRef,
+  useEffect,
+} from "react";
+
+import {
+  ref,
+  onValue,
+} from "firebase/database";
+
+import { db } from "../firebase";
+
 import { shops } from "../data/shops";
-import { useNavigate, useLocation } from "react-router-dom";
+
+import {
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+
 import { Mic } from "lucide-react";
 
 const SearchPage = () => {
-  const location = useLocation();
-  const [search, setSearch] = useState(location.state?.query || "");
-  const [listening, setListening] = useState(false);
 
-  const recognitionRef = useRef(null);
+  const location = useLocation();
+
+  const [search, setSearch] =
+    useState(
+      location.state?.query || ""
+    );
+
+  const [listening, setListening] =
+    useState(false);
+
+  // FIREBASE PRODUCTS
+  const [products, setProducts] =
+    useState([]);
+
+  // FETCH PRODUCTS
+  useEffect(() => {
+
+    const productsRef = ref(
+      db,
+      "products"
+    );
+
+    onValue(productsRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (data) {
+
+        setProducts(data);
+
+      }
+
+    });
+
+  }, []);
+
+  const recognitionRef =
+    useRef(null);
+
   const navigate = useNavigate();
 
-  // 🔍 STEP 1: matching products
-  const matchedProducts = products.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // MATCHING PRODUCTS
+  const matchedProducts =
+    products.filter((item) =>
+      item.name
+        .toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
+    );
 
-  // 🔥 STEP 2: unique shopIds
-  const shopIds = [...new Set(matchedProducts.map(p => p.shopId))];
+  // UNIQUE SHOP IDS
+  const shopIds = [
+    ...new Set(
+      matchedProducts.map(
+        (p) => p.shopId
+      )
+    ),
+  ];
 
-  // 🏪 STEP 3: shops filter
-  const matchedShops = shops.filter(shop =>
-    shopIds.includes(shop.id)
-  );
+  // MATCHED SHOPS
+  const matchedShops =
+    shops.filter((shop) =>
+      shopIds.includes(shop.id)
+    );
 
-  // 🎤 MIC FUNCTION (FULL FIXED)
+  // MIC FUNCTION
   const handleMic = () => {
+
     if (!recognitionRef.current) {
-      const recognition = new window.webkitSpeechRecognition();
+
+      const recognition =
+        new window.webkitSpeechRecognition();
 
       recognition.lang = "en-IN";
-      recognition.continuous = false;
-      recognition.interimResults = false;
+
+      recognition.continuous =
+        false;
+
+      recognition.interimResults =
+        false;
 
       recognition.onstart = () => {
+
         setListening(true);
+
       };
 
-      recognition.onresult = (event) => {
+      recognition.onresult = (
+        event
+      ) => {
+
         let text = "";
-        for (let i = 0; i < event.results.length; i++) {
-          text += event.results[i][0].transcript;
+
+        for (
+          let i = 0;
+          i < event.results.length;
+          i++
+        ) {
+
+          text +=
+            event.results[i][0]
+              .transcript;
+
         }
 
-        console.log("Voice:", text);
+        console.log(
+          "Voice:",
+          text
+        );
+
         setSearch(text);
+
       };
 
-      recognition.onerror = (err) => {
-        console.log("Mic error:", err);
+      recognition.onerror = (
+        err
+      ) => {
+
+        console.log(
+          "Mic error:",
+          err
+        );
+
         setListening(false);
+
         alert("Mic error 😢");
+
       };
 
       recognition.onend = () => {
+
         setListening(false);
+
       };
 
-      recognitionRef.current = recognition;
+      recognitionRef.current =
+        recognition;
+
     }
 
     recognitionRef.current.start();
+
   };
 
   return (
-    <div className="p-4">
+
+    <div className="p-4 pb-20 bg-gray-50 min-h-screen">
 
       <BackHeader title="" />
 
-      {/* 🔍 SEARCH INPUT + MIC */}
-      <div className="flex items-center border rounded-full px-4 py-2 mb-4 gap-2">
+      {/* SEARCH INPUT */}
+      <div className="flex items-center bg-white border rounded-full px-4 py-3 mb-5 gap-2 shadow-sm">
+
         <input
           type="text"
           placeholder="Search products..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 outline-none"
+          onChange={(e) =>
+            setSearch(
+              e.target.value
+            )
+          }
+          className="flex-1 outline-none text-sm"
         />
 
-        {/* 🎤 MIC BUTTON */}
-        <button onClick={handleMic}>
+        {/* MIC */}
+        <button
+          onClick={handleMic}
+        >
+
           <Mic
             className={`w-5 h-5 ${
-              listening ? "text-red-600 animate-pulse" : ""
+              listening
+                ? "text-red-600 animate-pulse"
+                : "text-gray-500"
             }`}
           />
+
         </button>
+
       </div>
 
-      {/* 🏪 RESULT: SHOPS */}
+      {/* RESULTS */}
       {matchedShops.length === 0 ? (
-        <p className="text-gray-500">No shops found 😢</p>
+
+        <div className="bg-white rounded-3xl p-8 text-center shadow-sm">
+
+          <p className="text-gray-500">
+
+            No shops found 😢
+
+          </p>
+
+        </div>
+
       ) : (
+
         matchedShops.map((shop) => (
+
           <div
             key={shop.id}
-            onClick={() => navigate(`/shop/${shop.id}`)}
-            className="border p-3 rounded mb-3 cursor-pointer hover:bg-gray-50"
+            onClick={() =>
+              navigate(
+                `/shop/${shop.id}`
+              )
+            }
+            className="bg-white p-4 rounded-3xl mb-4 shadow-sm cursor-pointer active:scale-[0.98] transition"
           >
-            <h3 className="font-semibold text-lg">{shop.title}</h3>
 
-            <p className="text-sm text-gray-500">
-              Available items: {matchedProducts
-                .filter(p => p.shopId === shop.id)
-                .map(p => p.name)
-                .join(", ")}
+            {/* SHOP NAME */}
+            <h3 className="font-bold text-lg">
+
+              {shop.title}
+
+            </h3>
+
+            {/* INFO */}
+            <p className="text-xs text-gray-500 mt-1">
+
+              ⭐ {shop.rating}
+              {" • "}
+              ⏱ {shop.time}
+
             </p>
+
+            {/* PRODUCTS */}
+            <div className="mt-3 flex flex-wrap gap-2">
+
+              {matchedProducts
+                .filter(
+                  (p) =>
+                    p.shopId ===
+                    shop.id
+                )
+                .slice(0, 5)
+                .map((p) => (
+
+                  <span
+                    key={p.id}
+                    className="bg-green-50 text-green-700 text-xs px-3 py-1 rounded-full"
+                  >
+
+                    {p.name}
+
+                  </span>
+
+                ))}
+
+            </div>
+
           </div>
+
         ))
+
       )}
 
     </div>
+
   );
+
 };
 
 export default SearchPage;
