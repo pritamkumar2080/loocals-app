@@ -30,6 +30,7 @@ import Wishlist from "./pages/Wishlist";
 // 🔥 CATEGORY PAGES
 import CategoryPage from "./pages/CategoryPage";
 import CategoriesPage from "./pages/CategoriesPage";
+import CouponsPage from "./pages/CouponsPage";
 
 const App = () => {
 
@@ -186,6 +187,11 @@ const App = () => {
           path="/category/:name"
           element={<CategoryPage />}
         />
+
+        <Route
+         path="/coupons"
+         element={<CouponsPage />}
+          />
 
       </Routes>
 
