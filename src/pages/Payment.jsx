@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useOrder } from "../context/OrderContext";
 import { useCart } from "../context/CartContext";
 
+import {addFirebaseOrder,} from "../services/firebaseOrderService";
+
 const Payment = () => {
 
   const [method, setMethod] = useState("");
@@ -44,54 +46,43 @@ const Payment = () => {
     subtotal - discount;
 
   // PLACE ORDER
-  const handleOrder = () => {
+const handleOrder = async () => {
 
-    if (!method) {
-
-      alert(
-        "Please select payment method"
-      );
-
-      return;
-    }
-
-    // CREATE ORDER
-    const newOrder = {
-
-      id: Date.now(),
-
-      items,
-
-      method,
-
-      address: savedAddress,
-
-      date: new Date().toLocaleString(),
-
-      // ✅ IMPORTANT
-      subtotal,
-
-      discount,
-
-      coupon,
-
-      finalTotal,
-    };
-
-    // SAVE ORDER
-    addOrder(newOrder);
-
-    // CLEAR CART
-    localStorage.removeItem("cart");
-
-    // REMOVE COUPON
-    localStorage.removeItem(
-      "appliedCoupon"
+  if (!method) {
+    alert(
+      "Please select payment method"
     );
+    return;
+  }
 
-    // SUCCESS PAGE
-    navigate("/success");
+  const newOrder = {
+    id: Date.now(),
+    items,
+    method,
+    address: savedAddress,
+    date: new Date().toLocaleString(),
+    subtotal,
+    discount,
+    coupon,
+    finalTotal,
   };
+
+  addOrder(newOrder);
+
+  await addFirebaseOrder(
+    newOrder
+  );
+
+  localStorage.removeItem(
+    "cart"
+  );
+
+  localStorage.removeItem(
+    "appliedCoupon"
+  );
+
+  navigate("/success");
+};
 
   return (
 
