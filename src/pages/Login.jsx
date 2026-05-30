@@ -1,6 +1,4 @@
-import {
-  useState,
-} from "react";
+import { useState } from "react";
 
 import {
   Link,
@@ -8,18 +6,14 @@ import {
 } from "react-router-dom";
 
 import {
-  signInWithEmailAndPassword, 
+  signInWithEmailAndPassword,
   sendPasswordResetEmail,
 } from "firebase/auth";
 
-import {
-  auth,
-} from "../firebase";
+import { auth } from "../firebase";
 
 const Login = () => {
-
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
   const [email, setEmail] =
     useState("");
@@ -34,15 +28,12 @@ const Login = () => {
 
   const handleLogin =
     async (e) => {
-
       e.preventDefault();
 
       try {
-
         setLoading(true);
 
         await signInWithEmailAndPassword(
-
           auth,
           email,
           password
@@ -68,63 +59,66 @@ const Login = () => {
       }
     };
 
-    const handleForgotPassword =
-  async () => {
+  const handleForgotPassword =
+    async () => {
 
-    if (!email) {
+      if (!email) {
 
-      alert(
-        "Enter your email first 😄"
-      );
+        alert(
+          "Enter your email first 😄"
+        );
 
-      return;
-    }
+        return;
+      }
 
-    try {
+      try {
 
-      await sendPasswordResetEmail(
+        await sendPasswordResetEmail(
+          auth,
+          email
+        );
 
-        auth,
-        email
-      );
+        alert(
+          "Password reset email sent ✅"
+        );
 
-      alert(
-        "Password reset email sent ✅"
-      );
+      } catch (error) {
 
-    } catch (error) {
+        console.log(error);
 
-      console.log(error);
-
-      alert(
-        error.message
-      );
-    }
-  };
+        alert(
+          error.message
+        );
+      }
+    };
 
   return (
 
-    <div className="min-h-screen flex items-center justify-center bg-slate-100 p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-green-50 via-white to-green-100">
 
+      {/* Background Blur */}
+
+      <img
+  src="/images/login1.png"
+  alt="Background"
+  className="absolute inset-0 w-full h-full object-contain"
+/>
+
+      {/* Login Form */}
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 rounded-3xl shadow-md w-full max-w-md space-y-5"
+        className="relative z-10 bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md space-y-5 translate-y-24"
       >
 
         <div>
 
           <h1 className="text-3xl font-bold text-slate-800">
-
             Welcome Back
-
           </h1>
 
           <p className="text-slate-500 mt-1">
-
             Login to continue
-
           </p>
-          
 
         </div>
 
@@ -137,7 +131,7 @@ const Login = () => {
               e.target.value
             )
           }
-          className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none"
+          className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-500"
           required
         />
 
@@ -150,7 +144,7 @@ const Login = () => {
               e.target.value
             )
           }
-          className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none"
+          className="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-green-500"
           required
         />
 
@@ -159,16 +153,14 @@ const Login = () => {
           onClick={
             handleForgotPassword
           }
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-green-600 hover:underline"
         >
-        
           Forgot Password?
-        
         </button>
-        
+
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition"
+          className="w-full bg-green-500 text-white py-3 rounded-xl hover:bg-green-600 transition"
         >
 
           {loading
@@ -183,11 +175,9 @@ const Login = () => {
 
           <Link
             to="/signup"
-            className="text-blue-600 ml-2 font-medium"
+            className="text-green-600 ml-2 font-medium"
           >
-
             Signup
-
           </Link>
 
         </p>
