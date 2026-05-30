@@ -1,31 +1,98 @@
 import BackHeader from "../components/BackHeader";
 
-import React from "react";
+import React, {useState,useEffect,} from "react";
 
-import { useOrder } from "../context/OrderContext";
+import { getFirebaseOrders,} from "../services/firebaseOrderService";
 
-import {
-  PackageCheck,
-  Clock3,
-  Truck,
-  CheckCircle2,
-  MapPin,
-  CreditCard,
-  Trash2,
-} from "lucide-react";
+import {ref,onValue,} from "firebase/database";
+
+import { db } from "../firebase";
+
+import { useAuth } from "../context/AuthContext";
+
+import {PackageCheck,Clock3,Truck, CheckCircle2, MapPin, CreditCard,Trash2,} from "lucide-react";
 
 const Orders = () => {
 
-  const {
-    orders,
-    clearOrders,
-  } = useOrder();
 
+  const [orders, setOrders] = useState([]);
+
+  const { user } = useAuth();
+
+  useEffect(() => {
+
+  const ordersRef =
+    ref(db, "orders");
+
+  const unsubscribe =
+    onValue(
+      ordersRef,
+      (snapshot) => {
+
+        if (snapshot.exists()) {
+
+          const data =
+          Object.values(
+            snapshot.val()
+          );
+
+          console.log("Current User UID:", user?.uid);
+console.log("All Orders:", data);
+        
+        const userOrders =
+          data.filter(
+            (order) =>
+              order.userId ===
+              user?.uid
+          );
+
+          console.log("Filtered Orders:", userOrders);
+        
+        setOrders(
+          userOrders
+        );
+
+          setOrders(data);
+
+          console.log(
+            "Realtime Orders:",
+            data
+          );
+
+        } else {
+
+          setOrders([]);
+        }
+      }
+    );
+
+  return () => unsubscribe();
+
+}, [user]);
   // TRACKING STEPS
-  const getStatusIndex = (id) => {
+const getStatusIndex =
+  (status) => {
 
-    return id % 4;
+    switch (status) {
 
+      case "Pending":
+        return 0;
+
+      case "Accepted":
+        return 1;
+
+      case "Packed":
+        return 1;
+
+      case "Out For Delivery":
+        return 2;
+
+      case "Delivered":
+        return 3;
+
+      default:
+        return 0;
+    }
   };
 
   return (
@@ -76,8 +143,10 @@ const Orders = () => {
 
             {orders.map((order) => {
 
-              const currentStep =
-                getStatusIndex(order.id);
+                 const currentStep =
+                   getStatusIndex(
+                     order.status
+                   );
 
               return (
 
@@ -144,10 +213,8 @@ const Orders = () => {
                         </div>
 
                         <p className="text-[10px] mt-2 text-center">
-
-                          Ordered
-
-                        </p>
+                           Pending
+                              </p>
 
                       </div>
 
@@ -168,10 +235,8 @@ const Orders = () => {
 
                         </div>
 
-                        <p className="text-[10px] mt-2 text-center">
-
-                          Packed
-
+                        <p className="text-[10px] mt-2 text-center"> 
+                        Accepted
                         </p>
 
                       </div>
@@ -195,7 +260,7 @@ const Orders = () => {
 
                         <p className="text-[10px] mt-2 text-center">
 
-                          On Way
+                          Out For Delivery
 
                         </p>
 
@@ -229,6 +294,13 @@ const Orders = () => {
                     </div>
 
                   </div>
+                  {order.status ===
+                       "Cancelled" && (
+
+                     <div className="bg-red-100 text-red-700 p-3 rounded-2xl mt-4 text-sm font-semibold">
+                     This order has been cancelled.
+                       </div>
+                            )}
 
                   {/* PAYMENT */}
                   <div className="flex items-center justify-between bg-green-50 rounded-2xl p-3 mb-4">
@@ -450,16 +522,6 @@ const Orders = () => {
             })}
 
             {/* CLEAR BUTTON */}
-            <button
-              onClick={clearOrders}
-              className="w-full bg-red-500 text-white py-4 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 shadow-sm"
-            >
-
-              <Trash2 size={18} />
-
-              Clear All Orders
-
-            </button>
 
           </>
 

@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import { ArrowLeft, MapPin, Building2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../context/AuthContext";
+import { db } from "../firebase";
+import { ref, set } from "firebase/database";
+
 const AddAddress = () => {
 
   const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   const [addressType, setAddressType] = useState("myself");
 
@@ -16,27 +22,69 @@ const AddAddress = () => {
   const [receiverPhone, setReceiverPhone] = useState("");
   const [saveAs, setSaveAs] = useState("");
 
+  
+
   // SAVE ADDRESS
-  const handleSave = () => {
 
-    const addressData = {
-      city,
-      area,
-      fullAddress,
-      mapLink,
-      addressType,
-      receiverName,
-      receiverPhone,
-      saveAs,
-    };
+  const handleSave = async () => {
 
-    localStorage.setItem(
-      "savedAddress",
-      JSON.stringify(addressData)
+  const addressData = {
+    city,
+    area,
+    fullAddress,
+    mapLink,
+    addressType,
+    receiverName,
+    receiverPhone,
+    saveAs,
+  };
+
+  console.log(
+    "User UID:",
+    user?.uid
+  );
+
+  console.log(
+    "Address Data:",
+    addressData
+  );
+
+  try {
+
+    await set(
+
+      ref(
+        db,
+        `users/${user.uid}/address`
+      ),
+
+      addressData
     );
 
-    navigate("/address");
-  };
+    console.log(
+      "Address Saved Successfully"
+    );
+
+    alert(
+      "Address Saved ✅"
+    );
+
+    navigate(
+      "/address"
+    );
+
+  } catch (error) {
+
+    console.log(
+      "SAVE ERROR:",
+      error
+    );
+
+    alert(
+      "Address Save Failed ❌"
+    );
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#f5f5f5]">

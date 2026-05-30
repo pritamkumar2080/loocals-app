@@ -1,4 +1,7 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import { ref, get } from "firebase/database";
+import { db } from "../firebase";
 import {
   MapPin,
   ShoppingBag,
@@ -14,18 +17,45 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../context/AuthContext";
+
 const Profile = () => {
 
   const navigate = useNavigate();
+  const { logout } = useAuth();
+  const { user } = useAuth();
+  const [userData, setUserData] =
+  useState(null);
 
-  // GET USER DATA
-  const user =
-    JSON.parse(localStorage.getItem("user")) || {
-      name: "Ankit Kumar",
-      mobile: "8877046530",
-      email: "ankit@gmail.com",
-      profileImage: "",
+useEffect(() => {
+
+  const getUserData =
+    async () => {
+
+      if (!user) return;
+
+      const snapshot =
+        await get(
+          ref(
+            db,
+            `users/${user.uid}`
+          )
+        );
+
+      if (
+        snapshot.exists()
+      ) {
+
+        setUserData(
+          snapshot.val()
+        );
+      }
     };
+
+  getUserData();
+
+}, [user]);
+
 
   return (
 
@@ -102,7 +132,7 @@ const Profile = () => {
           <div className="px-5 pb-6 pt-4 text-center">
 
             <h2 className="text-4xl font-bold text-[#0f172a]">
-              {user.name}
+              {userData?.name}
             </h2>
 
             {/* PHONE */}
@@ -114,7 +144,7 @@ const Profile = () => {
               />
 
               <p className="text-lg text-[#1e293b]">
-                {user.mobile}
+                {userData?.phone}
               </p>
 
             </div>
@@ -128,7 +158,7 @@ const Profile = () => {
               />
 
               <p className="text-sm text-[#1e293b]">
-                {user.email}
+                {userData?.email}
               </p>
 
             </div>
@@ -312,7 +342,20 @@ const Profile = () => {
 
           {/* LOGOUT */}
           <button
-            onClick={() => alert("Logged out")}
+            onClick={async () => {
+
+              const confirmLogout =
+                window.confirm(
+                  "Are you sure you want to logout?"
+                );
+              
+              if (!confirmLogout) return;
+              
+              await logout();
+              
+              navigate("/login");
+              
+            }}
             className="w-full bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3 text-red-500 font-semibold"
           >
 

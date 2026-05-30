@@ -1,10 +1,37 @@
-import BackHeader from "../components/BackHeader";
-import React, { useState } from "react";
-import ShopCard from "../components/ShopCard";
-import { shops } from "../data/shops";
+import React,
+{
+  useState,
+  useEffect,
+} from "react";
 
+import BackHeader from "../components/BackHeader";
+import ShopCard from "../components/ShopCard";
+
+import {
+  getFirebaseShops,
+} from "../services/firebaseShopService";
 const ShopsPage = () => {
   const [search, setSearch] = useState("");
+
+  const [shops, setShops] =
+  useState([]);
+
+  useEffect(() => {
+
+  const loadShops =
+    async () => {
+
+      const shopsData =
+        await getFirebaseShops();
+
+      setShops(
+        shopsData || []
+      );
+    };
+
+  loadShops();
+
+}, []);
 
   // 🔥 SAFE LOCATION READ
   const lat = localStorage.getItem("userLat");

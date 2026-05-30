@@ -9,15 +9,49 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { useEffect, useState } from "react";
+import { ref, get } from "firebase/database";
+import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext";
+
 const Address = () => {
 
   const navigate = useNavigate();
 
+  const { user } = useAuth();
+
+const [savedAddress, setSavedAddress] =
+  useState(null);
+
+  useEffect(() => {
+
+  const getAddress =
+    async () => {
+
+      if (!user) return;
+
+      const snapshot =
+        await get(
+          ref(
+            db,
+            `users/${user.uid}/address`
+          )
+        );
+
+      if (snapshot.exists()) {
+
+        setSavedAddress(
+          snapshot.val()
+        );
+      }
+    };
+
+  getAddress();
+
+}, [user]);
+
   // GET SAVED ADDRESS
-  const savedAddress = JSON.parse(
-  localStorage.getItem("savedAddress")
-);
-  
+
 
   return (
     <div className="min-h-screen bg-[#035c16]">

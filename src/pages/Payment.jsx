@@ -5,15 +5,22 @@ import { useOrder } from "../context/OrderContext";
 import { useCart } from "../context/CartContext";
 
 import {addFirebaseOrder,} from "../services/firebaseOrderService";
+import { useAuth } from "../context/AuthContext";
+import { ref, get } from "firebase/database";
+import { db } from "../firebase";
 
 const Payment = () => {
+
+  const { cart } = useCart();
+
+  const { user } = useAuth();
 
   const [method, setMethod] = useState("");
 
   const navigate = useNavigate();
 
   const { addOrder } = useOrder();
-  const { cart } = useCart();
+  
 
   // ADDRESS
   const savedAddress = JSON.parse(
@@ -47,6 +54,7 @@ const Payment = () => {
 
   // PLACE ORDER
 const handleOrder = async () => {
+  console.log("Handle Order Started");
 
   if (!method) {
     alert(
@@ -54,24 +62,69 @@ const handleOrder = async () => {
     );
     return;
   }
+console.log("Before User Fetch");
+  const snapshot = await get(
+  ref(
+    db,
+    `users/${user.uid}`
+  )
+);
+
+const userData =
+  snapshot.val();
+
+  console.log(
+  "User Data:",
+  userData
+);
 
   const newOrder = {
-    id: Date.now(),
-    items,
-    method,
-    address: savedAddress,
-    date: new Date().toLocaleString(),
-    subtotal,
-    discount,
-    coupon,
-    finalTotal,
-  };
+  id: Date.now(),
+
+  userId: user.uid,
+
+  customerName:
+  userData?.name || "User",
+
+customerEmail:
+  userData?.email || user.email,
+
+customerPhone:
+  userData?.phone || "",
+
+  items,
+
+  method,
+
+  address:
+    savedAddress,
+
+  date:
+    new Date()
+      .toLocaleString(),
+
+  subtotal,
+
+  discount,
+
+  coupon,
+
+  finalTotal,
+};
+
+console.log(
+  "New Order:",
+  newOrder
+);
 
   addOrder(newOrder);
 
   await addFirebaseOrder(
     newOrder
   );
+  console.log(
+  "Firebase Save Success"
+);
 
   localStorage.removeItem(
     "cart"

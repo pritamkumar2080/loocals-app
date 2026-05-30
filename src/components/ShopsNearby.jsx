@@ -1,11 +1,39 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ShopCard from "./ShopCard";
-import { shops } from "../data/shops";
+import {
+  useState,
+  useEffect,
+} from "react";
+
+import {
+  getFirebaseShops,
+} from "../services/firebaseShopService";
 
 const ShopsNearby = () => {
 
   const navigate = useNavigate();
+
+  const [shops,
+  setShops] =
+  useState([]);
+
+  useEffect(() => {
+
+  const loadShops =
+    async () => {
+
+      const shopsData =
+        await getFirebaseShops();
+
+      setShops(
+        shopsData || []
+      );
+    };
+
+  loadShops();
+
+}, []);
 
   const nearbyShops = shops.slice(0, 2);
 

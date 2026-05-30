@@ -14,7 +14,9 @@ import {
 
 import { db } from "../firebase";
 
-import { shops } from "../data/shops";
+import {
+  getFirebaseShops,
+} from "../services/firebaseShopService";
 
 import { useCart } from "../context/CartContext";
 
@@ -37,6 +39,8 @@ const ShopDetail = () => {
   // PRODUCTS
   const [products, setProducts] =
     useState([]);
+    const [shops, setShops] =
+  useState([]);
 
   // FETCH PRODUCTS
   useEffect(() => {
@@ -84,6 +88,23 @@ const ShopDetail = () => {
     });
 
   }, []);
+
+  useEffect(() => {
+
+  const loadShops =
+    async () => {
+
+      const shopsData =
+        await getFirebaseShops();
+
+      setShops(
+        shopsData || []
+      );
+    };
+
+  loadShops();
+
+}, []);
 
   const {
     cart,

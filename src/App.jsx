@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
 import { SearchProvider } from "./context/SearchContext";
 
 import Navbar from "./components/Navbar";
@@ -25,6 +28,7 @@ import Address from "./pages/Address";
 import AddAddress from "./pages/AddAddress";
 import MapPicker from "./pages/MapPicker";
 import Coupon from "./pages/Coupon";
+import ProtectedRoute from "./routes/ProtectedRoute";
 import Wishlist from "./pages/Wishlist";
 
 // 🔥 CATEGORY PAGES
@@ -71,7 +75,19 @@ const App = () => {
   const showNavbar =
     location.pathname === "/";
 
+    const hideLayout =
+
+  location.pathname ===
+    "/login"
+
+  ||
+
+  location.pathname ===
+    "/signup";
+
   return (
+
+    
 
     <SearchProvider>
 
@@ -82,8 +98,25 @@ const App = () => {
       <Routes>
 
         <Route
+        path="/login"
+        element={<Login />}
+      />
+
+      <Route
+        path="/signup"
+        element={<Signup />}
+      />
+
+      <Route
           path="/"
-          element={<Home />}
+          element={
+          
+            <ProtectedRoute>
+            
+              <Home />
+          
+            </ProtectedRoute>
+          }
         />
 
         <Route
@@ -196,10 +229,16 @@ const App = () => {
       </Routes>
 
       {/* 🔻 BOTTOM NAV */}
-      <BottomNavbar />
+      {!hideLayout &&
+
+        <BottomNavbar />
+        }
 
       {/* 🛒 FLOATING CART */}
-      <FloatingCart />
+      {!hideLayout &&
+
+        <FloatingCart />
+        }
 
     </SearchProvider>
 

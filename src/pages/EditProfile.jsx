@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import { ArrowLeft, Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../context/AuthContext";
+import { db } from "../firebase";
+import { ref, update } from "firebase/database";
+
 const EditProfile = () => {
 
   const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   // USER STATES
   const [name, setName] = useState("Ankit Kumar");
@@ -30,23 +36,44 @@ const EditProfile = () => {
   };
 
   // UPDATE PROFILE
-  const handleUpdate = () => {
 
-    const updatedUser = {
-      name,
-      mobile,
-      email,
-      profileImage,
-    };
+  const handleUpdate =
+  async () => {
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify(updatedUser)
-    );
+    try {
 
-    navigate("/profile");
+      await update(
+
+        ref(
+          db,
+          `users/${user.uid}`
+        ),
+
+        {
+          name,
+          phone: mobile,
+          email,
+          profileImage,
+        }
+      );
+
+      alert(
+        "Profile Updated ✅"
+      );
+
+      navigate(
+        "/profile"
+      );
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert(
+        "Update Failed ❌"
+      );
+    }
   };
-
   return (
     <div className="min-h-screen bg-[#f8f8f8]">
 
