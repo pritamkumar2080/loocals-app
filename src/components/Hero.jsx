@@ -57,10 +57,10 @@ const Hero = () => {
 
   return (
 
-    <div className="w-full mt-3">
+    <div className="w-full mt-3 px-2">
 
       {/* MAIN WRAPPER */}
-      <div className="relative w-full overflow-hidden rounded-2xl shadow-sm">
+      <div className="relative w-full overflow-hidden rounded-3xl shadow-xl shadow-black/20">
 
         {/* SLIDER TRACK */}
         <div
@@ -92,7 +92,7 @@ const Hero = () => {
                 <img
                   src={item.img}
                   alt="hero"
-                  className="w-full h-44 object-cover"
+                  className="w-full h-45 object-cover"
                 />
 
                 {/* OVERLAY */}

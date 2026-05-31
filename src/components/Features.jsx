@@ -3,10 +3,10 @@ import React from "react";
 const Features = () => {
   return (
 
-    <div className="grid grid-cols-4 gap-2 mt-4">
+    <div className="grid grid-cols-4 gap-2 pt-2">
 
       {/* FREE DELIVERY */}
-      <div className="bg-white rounded-xl p-2 shadow-sm flex flex-col items-center text-center">
+      <div className="bg-white rounded-2xl p-2 shadow-lg shadow-black/10 flex flex-col items-center text-center">
 
         <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mb-1">
           <span className="text-green-600 text-sm">

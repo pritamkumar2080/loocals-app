@@ -11,16 +11,18 @@ import SaleSection from "../components/SaleSection";
 
 const Home = () => {
   return (
-    <div className="px-4 pb-16 bg-gray-50 min-h-screen">
+    <div className="pb-16 bg-gray-50 min-h-screen">
 
-      {/* ✨ FEATURES */}
-      <Features />
+      <div className="bg-gradient-to-b from-[#0F3D26] via-[#185234] to-[#1F6A43] pb-4">
 
-      {/* 🔝 HERO */}
-      <Hero />
+  <Features />
+
+  <Hero />
+
+</div>
 
       {/* 🎁 OFFER BANNER */}
-      <div className="-mt-3">
+      <div className="px-4">
         <OfferBanner />
       </div>
 
