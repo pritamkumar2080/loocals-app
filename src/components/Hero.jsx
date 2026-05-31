@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+
+import "swiper/css";
 
 const Hero = () => {
 
-  // ✅ SLIDES
+  const [current, setCurrent] = useState(0);
+
   const slides = [
     {
       img: "/images/hero1.png",
@@ -33,92 +39,50 @@ const Hero = () => {
     },
   ];
 
-  const [current, setCurrent] =
-    useState(0);
-
-  // AUTO SLIDE
-  useEffect(() => {
-
-    const interval =
-      setInterval(() => {
-
-        setCurrent(
-          (prev) =>
-            (prev + 1) %
-            slides.length
-        );
-
-      }, 3000);
-
-    return () =>
-      clearInterval(interval);
-
-  }, []);
-
   return (
-
     <div className="w-full mt-3 px-2">
 
-      {/* MAIN WRAPPER */}
-      <div className="relative w-full overflow-hidden rounded-3xl shadow-xl shadow-black/20">
+      {/* HERO SLIDER */}
+      <div className="relative overflow-hidden rounded-3xl shadow-xl shadow-black/20">
 
-        {/* SLIDER TRACK */}
-        <div
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{
-            width: `${slides.length * 100}%`,
-            transform: `translateX(-${
-              current *
-              (100 / slides.length)
-            }%)`,
+        <Swiper
+          modules={[Autoplay]}
+          loop={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
           }}
+          onSlideChange={(swiper) =>
+            setCurrent(swiper.realIndex)
+          }
         >
 
-          {slides.map(
-            (item, index) => (
+          {slides.map((item, index) => (
 
-              <div
-                key={index}
-                className="relative flex-shrink-0"
-                style={{
-                  width: `${
-                    100 /
-                    slides.length
-                  }%`,
-                }}
-              >
+            <SwiperSlide key={index}>
 
-                {/* IMAGE */}
+              <div className="relative">
+
                 <img
                   src={item.img}
                   alt="hero"
-                  className="w-full h-45 object-cover"
+                  className="w-full h-48 object-cover"
                 />
 
-                {/* OVERLAY */}
                 <div className="absolute inset-0 bg-black/25 flex items-center p-5">
 
                   <div className="text-white max-w-[65%]">
 
-                    {/* TAG */}
                     <p className="text-[11px] font-semibold tracking-wide mb-1 opacity-90">
-
                       {item.tag}
-
                     </p>
 
-                    {/* TITLE */}
                     <h2 className="text-xl font-bold leading-tight whitespace-pre-line">
-
                       {item.title}
-
                     </h2>
 
-                    {/* SUBTITLE */}
                     <p className="text-xs mt-2 opacity-90 leading-relaxed">
-
                       {item.sub}
-
                     </p>
 
                   </div>
@@ -127,14 +91,15 @@ const Hero = () => {
 
               </div>
 
-            )
-          )}
+            </SwiperSlide>
 
-        </div>
+          ))}
+
+        </Swiper>
 
       </div>
 
-      {/* DOTS */}
+      {/* CUSTOM DOTS */}
       <div className="flex justify-center mt-3 gap-2">
 
         {slides.map((_, i) => (
@@ -143,7 +108,7 @@ const Hero = () => {
             key={i}
             className={`transition-all duration-300 rounded-full ${
               i === current
-                ? "w-5 h-2 bg-green-600"
+                ? "w-5 h-2 bg-green-400"
                 : "w-2 h-2 bg-gray-300"
             }`}
           />
@@ -153,7 +118,6 @@ const Hero = () => {
       </div>
 
     </div>
-
   );
 };
 
